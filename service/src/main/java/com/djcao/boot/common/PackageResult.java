@@ -1,6 +1,9 @@
 package com.djcao.boot.common;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
 
 /**
  * @author djcao
@@ -109,6 +112,14 @@ public class PackageResult<T> {
 
     public PackageResult<T> setTotal(int total) {
         this.total = total;
+        return this;
+    }
+
+    public PackageResult<T> setPage(Page page){
+        this.total = page.getTotalPages();
+        this.code = CodeDef.SUCCESS;
+        this.success = Boolean.TRUE;
+        this.result = (T)page.getContent();
         return this;
     }
 }

@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-6 17:15:19 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-6 20:01:10 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -33,11 +33,13 @@ public class RegisterUser  implements java.io.Serializable {
      private String name;
      private String ext;
      private String token;
+     private String password;
+     private String userName;
 
     public RegisterUser() {
     }
 
-    public RegisterUser(Date createTime, Date updateTime, String identityNumber, String phoneNumber, String email, Long userId, Long groupId, String name, String ext, String token) {
+    public RegisterUser(Date createTime, Date updateTime, String identityNumber, String phoneNumber, String email, Long userId, Long groupId, String name, String ext, String token, String password, String userName) {
        this.createTime = createTime;
        this.updateTime = updateTime;
        this.identityNumber = identityNumber;
@@ -48,6 +50,8 @@ public class RegisterUser  implements java.io.Serializable {
        this.name = name;
        this.ext = ext;
        this.token = token;
+       this.password = password;
+       this.userName = userName;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -160,6 +164,26 @@ public class RegisterUser  implements java.io.Serializable {
     
     public void setToken(String token) {
         this.token = token;
+    }
+
+    
+    @Column(name="password")
+    public String getPassword() {
+        return this.password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    
+    @Column(name="user_name")
+    public String getUserName() {
+        return this.userName;
+    }
+    
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 

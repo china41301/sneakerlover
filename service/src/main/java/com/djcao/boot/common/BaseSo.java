@@ -9,9 +9,9 @@ import lombok.Data;
  */
 public class BaseSo {
 
-    private int pageNum;
+    private int pageNum = 0;
 
-    private int pageSize;
+    private int pageSize = 20;
 
     public int getPageNum() {
         return pageNum;

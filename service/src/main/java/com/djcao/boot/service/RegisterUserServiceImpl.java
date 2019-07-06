@@ -8,6 +8,7 @@ import com.djcao.boot.repository.RegisterUserGroupRepository;
 import com.djcao.boot.repository.RegisterUserRepository;
 import com.djcao.boot.so.RegisterUserSo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -65,8 +66,8 @@ public class RegisterUserServiceImpl implements RegisterUserService {
     public PackageResult<List<RegisterUser>> findByUserId(RegisterUserSo registerUserSo) {
         Pageable pageable = PageRequest.of(registerUserSo.getPageNum(), registerUserSo.getPageSize(),
             Direction.DESC, "createTime");
-        List<RegisterUser> registerUserByUserId = registerUserRepository.findRegisterUserByUserId(
+        Page<RegisterUser> registerUserByUserId = registerUserRepository.findRegisterUserByUserId(
             registerUserSo.getUserId(), pageable);
-        return PackageResult.success(registerUserByUserId);
+        return new PackageResult<List<RegisterUser>>().setPage(registerUserByUserId);
     }
 }
