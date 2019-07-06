@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="com.djcao.boot.repository.ReservationUser">
+        <table name="reservation_user" schema="sneakerlover" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="20"/>
+            </id>
+            <basic name="createTime">
+                <column name="create_time" nullable="false" precision="-1"/>
+            </basic>
+            <basic name="updateTime">
+                <column name="update_time" nullable="false" precision="-1"/>
+            </basic>
+            <basic name="userId">
+                <column name="user_id" nullable="false" precision="20"/>
+            </basic>
+            <basic name="groupIdOrRegisterUserId">
+                <column name="group_id_or_register_user_id" nullable="false" precision="20"/>
+            </basic>
+            <basic name="reservationRegistrationId">
+                <column name="reservation_registration_id" nullable="false" precision="20"/>
+            </basic>
+            <basic name="isSuccess">
+                <column name="is_success" nullable="false" precision="4"/>
+            </basic>
+            <basic name="signNumber">
+                <column name="sign_number" nullable="false"/>
+            </basic>
+            <basic name="token">
+                <column name="token" nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>

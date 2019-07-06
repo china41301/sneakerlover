@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="NewPersistenceUnit">
+        <mapping-file>com/djcao/boot/repository/RegisterUser.xml</mapping-file>
+        <mapping-file>com/djcao/boot/repository/ReservationRegistration.xml</mapping-file>
+        <mapping-file>com/djcao/boot/repository/ReservationUser.xml</mapping-file>
+        <mapping-file>com/djcao/boot/repository/User.xml</mapping-file>
+        <class>com.djcao.boot.repository.RegisterUser</class>
+        <class>com.djcao.boot.repository.ReservationRegistration</class>
+        <class>com.djcao.boot.repository.ReservationUser</class>
+        <class>com.djcao.boot.repository.User</class>
+        <properties>
+            <property name="toplink.jdbc.url" value="jdbc:mysql://34.80.203.117:3306/sneakerlover"/>
+            <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://34.80.203.117:3306/sneakerlover"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="openjpa.ConnectionURL" value="jdbc:mysql://34.80.203.117:3306/sneakerlover"/>
+            <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
+            <property name="eclipselink.jdbc.url" value="jdbc:mysql://34.80.203.117:3306/sneakerlover"/>
+            <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+        </properties>
+    </persistence-unit>
+</persistence>

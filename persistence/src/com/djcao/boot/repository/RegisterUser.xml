@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="com.djcao.boot.repository.RegisterUser">
+        <table name="register_user" schema="sneakerlover" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="20"/>
+            </id>
+            <basic name="createTime">
+                <column name="create_time" nullable="false" precision="-1"/>
+            </basic>
+            <basic name="updateTime">
+                <column name="update_time" nullable="false" precision="-1"/>
+            </basic>
+            <basic name="identityNumber">
+                <column name="identity_number" nullable="false" length="80"/>
+            </basic>
+            <basic name="phoneNumber">
+                <column name="phone_number" nullable="false" length="80"/>
+            </basic>
+            <basic name="email">
+                <column name="email" nullable="false"/>
+            </basic>
+            <basic name="userId">
+                <column name="user_id" nullable="false" precision="20"/>
+            </basic>
+            <basic name="groupId">
+                <column name="group_id" nullable="false" precision="20"/>
+            </basic>
+            <basic name="name">
+                <column name="name" nullable="false"/>
+            </basic>
+            <basic name="ext">
+                <column name="ext" nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
