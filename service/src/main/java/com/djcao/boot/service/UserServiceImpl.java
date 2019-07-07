@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
     public PackageResult<User> login(UserSo so) {
         String account = so.getAccount();
         String password = so.getPassword();
-        PackageResult<User> packageResult = new PackageResult<>();
         User dbUser = userRepository.findByPhoneNumOrEmail(account);
         //to register
         if (dbUser == null){
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService {
                 return PackageResult.error("请输入用户名或者密码");
             }
             if (SwitchHelper.isSimple()){
-                return packageResult.setSuccess(Boolean.FALSE).setMessage("用户不存在");
+                return PackageResult.error("用户不存在");
             }
             dbUser = new User();
             dbUser.setCreateTime(new Date());
@@ -50,14 +49,13 @@ public class UserServiceImpl implements UserService {
             dbUser.setPasswd(password.replace(" ",""));
             dbUser.setPhoneNum(Integer.valueOf(account));
             dbUser = userRepository.save(dbUser);
-            return packageResult.setSuccess(Boolean.TRUE).setResult(dbUser);
+            return PackageResult.success(dbUser);
         }else {
             if (dbUser.getPasswd().equals(password)){
-                packageResult.setSuccess(Boolean.TRUE).setResult(dbUser);
+                return PackageResult.success(dbUser);
             }else {
-                packageResult.setSuccess(Boolean.FALSE).setMessage("密码错误");
+                return PackageResult.error("密码错误");
             }
-            return packageResult;
         }
     }
 }
