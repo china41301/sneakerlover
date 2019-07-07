@@ -3,7 +3,6 @@ package com.djcao.boot.controller;
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.repository.ShoesItem;
 import com.djcao.boot.service.ShoesItemService;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
