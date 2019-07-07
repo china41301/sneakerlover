@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-6 20:01:10 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-7 13:37:38 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -24,23 +24,23 @@ public class ReservationRegistration  implements java.io.Serializable {
 
      private Long id;
      private Date createTime;
-     private Date updateTime;
-     private Date triggerTime;
+     private Long itemId;
      private Integer registerUserType;
      private Integer status;
-     private Long itemId;
+     private Date triggerTime;
+     private Date updateTime;
      private Long userId;
 
     public ReservationRegistration() {
     }
 
-    public ReservationRegistration(Date createTime, Date updateTime, Date triggerTime, Integer registerUserType, Integer status, Long itemId, Long userId) {
+    public ReservationRegistration(Date createTime, Long itemId, Integer registerUserType, Integer status, Date triggerTime, Date updateTime, Long userId) {
        this.createTime = createTime;
-       this.updateTime = updateTime;
-       this.triggerTime = triggerTime;
+       this.itemId = itemId;
        this.registerUserType = registerUserType;
        this.status = status;
-       this.itemId = itemId;
+       this.triggerTime = triggerTime;
+       this.updateTime = updateTime;
        this.userId = userId;
     }
    
@@ -66,24 +66,14 @@ public class ReservationRegistration  implements java.io.Serializable {
         this.createTime = createTime;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="update_time", length=19)
-    public Date getUpdateTime() {
-        return this.updateTime;
+    
+    @Column(name="item_id")
+    public Long getItemId() {
+        return this.itemId;
     }
     
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="trigger_time", length=19)
-    public Date getTriggerTime() {
-        return this.triggerTime;
-    }
-    
-    public void setTriggerTime(Date triggerTime) {
-        this.triggerTime = triggerTime;
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 
     
@@ -106,14 +96,24 @@ public class ReservationRegistration  implements java.io.Serializable {
         this.status = status;
     }
 
-    
-    @Column(name="item_id")
-    public Long getItemId() {
-        return this.itemId;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="trigger_time", length=19)
+    public Date getTriggerTime() {
+        return this.triggerTime;
     }
     
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setTriggerTime(Date triggerTime) {
+        this.triggerTime = triggerTime;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="update_time", length=19)
+    public Date getUpdateTime() {
+        return this.updateTime;
+    }
+    
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     

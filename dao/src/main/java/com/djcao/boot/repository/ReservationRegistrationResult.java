@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-6 20:01:10 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-7 13:37:38 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -24,22 +24,22 @@ public class ReservationRegistrationResult  implements java.io.Serializable {
 
      private Long id;
      private Date createTime;
-     private Date updateTime;
-     private Long reservationRegistrationId;
-     private Long registerUserId;
-     private Integer status;
      private String ext;
+     private Long registerUserId;
+     private Long reservationRegistrationId;
+     private Integer status;
+     private Date updateTime;
 
     public ReservationRegistrationResult() {
     }
 
-    public ReservationRegistrationResult(Date createTime, Date updateTime, Long reservationRegistrationId, Long registerUserId, Integer status, String ext) {
+    public ReservationRegistrationResult(Date createTime, String ext, Long registerUserId, Long reservationRegistrationId, Integer status, Date updateTime) {
        this.createTime = createTime;
-       this.updateTime = updateTime;
-       this.reservationRegistrationId = reservationRegistrationId;
-       this.registerUserId = registerUserId;
-       this.status = status;
        this.ext = ext;
+       this.registerUserId = registerUserId;
+       this.reservationRegistrationId = reservationRegistrationId;
+       this.status = status;
+       this.updateTime = updateTime;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -64,24 +64,14 @@ public class ReservationRegistrationResult  implements java.io.Serializable {
         this.createTime = createTime;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="update_time", length=19)
-    public Date getUpdateTime() {
-        return this.updateTime;
+    
+    @Column(name="ext")
+    public String getExt() {
+        return this.ext;
     }
     
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    
-    @Column(name="reservation_registration_id")
-    public Long getReservationRegistrationId() {
-        return this.reservationRegistrationId;
-    }
-    
-    public void setReservationRegistrationId(Long reservationRegistrationId) {
-        this.reservationRegistrationId = reservationRegistrationId;
+    public void setExt(String ext) {
+        this.ext = ext;
     }
 
     
@@ -95,6 +85,16 @@ public class ReservationRegistrationResult  implements java.io.Serializable {
     }
 
     
+    @Column(name="reservation_registration_id")
+    public Long getReservationRegistrationId() {
+        return this.reservationRegistrationId;
+    }
+    
+    public void setReservationRegistrationId(Long reservationRegistrationId) {
+        this.reservationRegistrationId = reservationRegistrationId;
+    }
+
+    
     @Column(name="status")
     public Integer getStatus() {
         return this.status;
@@ -104,14 +104,14 @@ public class ReservationRegistrationResult  implements java.io.Serializable {
         this.status = status;
     }
 
-    
-    @Column(name="ext")
-    public String getExt() {
-        return this.ext;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="update_time", length=19)
+    public Date getUpdateTime() {
+        return this.updateTime;
     }
     
-    public void setExt(String ext) {
-        this.ext = ext;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
 

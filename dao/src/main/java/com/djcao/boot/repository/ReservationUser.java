@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-6 20:01:10 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-7 13:37:38 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -24,26 +24,26 @@ public class ReservationUser  implements java.io.Serializable {
 
      private Long id;
      private Date createTime;
-     private Date updateTime;
-     private Long userId;
      private Long groupIdOrRegisterUserId;
-     private Long reservationRegistrationId;
      private Byte isSuccess;
+     private Long reservationRegistrationId;
      private String signNumber;
      private String token;
+     private Date updateTime;
+     private Long userId;
 
     public ReservationUser() {
     }
 
-    public ReservationUser(Date createTime, Date updateTime, Long userId, Long groupIdOrRegisterUserId, Long reservationRegistrationId, Byte isSuccess, String signNumber, String token) {
+    public ReservationUser(Date createTime, Long groupIdOrRegisterUserId, Byte isSuccess, Long reservationRegistrationId, String signNumber, String token, Date updateTime, Long userId) {
        this.createTime = createTime;
-       this.updateTime = updateTime;
-       this.userId = userId;
        this.groupIdOrRegisterUserId = groupIdOrRegisterUserId;
-       this.reservationRegistrationId = reservationRegistrationId;
        this.isSuccess = isSuccess;
+       this.reservationRegistrationId = reservationRegistrationId;
        this.signNumber = signNumber;
        this.token = token;
+       this.updateTime = updateTime;
+       this.userId = userId;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -68,26 +68,6 @@ public class ReservationUser  implements java.io.Serializable {
         this.createTime = createTime;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="update_time", length=19)
-    public Date getUpdateTime() {
-        return this.updateTime;
-    }
-    
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    
-    @Column(name="user_id")
-    public Long getUserId() {
-        return this.userId;
-    }
-    
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     
     @Column(name="group_id_or_register_user_id")
     public Long getGroupIdOrRegisterUserId() {
@@ -99,16 +79,6 @@ public class ReservationUser  implements java.io.Serializable {
     }
 
     
-    @Column(name="reservation_registration_id")
-    public Long getReservationRegistrationId() {
-        return this.reservationRegistrationId;
-    }
-    
-    public void setReservationRegistrationId(Long reservationRegistrationId) {
-        this.reservationRegistrationId = reservationRegistrationId;
-    }
-
-    
     @Column(name="is_success")
     public Byte getIsSuccess() {
         return this.isSuccess;
@@ -116,6 +86,16 @@ public class ReservationUser  implements java.io.Serializable {
     
     public void setIsSuccess(Byte isSuccess) {
         this.isSuccess = isSuccess;
+    }
+
+    
+    @Column(name="reservation_registration_id")
+    public Long getReservationRegistrationId() {
+        return this.reservationRegistrationId;
+    }
+    
+    public void setReservationRegistrationId(Long reservationRegistrationId) {
+        this.reservationRegistrationId = reservationRegistrationId;
     }
 
     
@@ -136,6 +116,26 @@ public class ReservationUser  implements java.io.Serializable {
     
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="update_time", length=19)
+    public Date getUpdateTime() {
+        return this.updateTime;
+    }
+    
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    
+    @Column(name="user_id")
+    public Long getUserId() {
+        return this.userId;
+    }
+    
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
 

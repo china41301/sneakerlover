@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-6 20:01:10 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-7 13:37:38 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -24,33 +24,33 @@ public class RegisterUser  implements java.io.Serializable {
 
      private Long id;
      private Date createTime;
-     private Date updateTime;
-     private String identityNumber;
-     private String phoneNumber;
      private String email;
-     private Long userId;
-     private Long groupId;
-     private String name;
      private String ext;
-     private String token;
+     private Long groupId;
+     private String identityNumber;
+     private String name;
      private String password;
+     private String phoneNumber;
+     private String token;
+     private Date updateTime;
+     private Long userId;
      private String userName;
 
     public RegisterUser() {
     }
 
-    public RegisterUser(Date createTime, Date updateTime, String identityNumber, String phoneNumber, String email, Long userId, Long groupId, String name, String ext, String token, String password, String userName) {
+    public RegisterUser(Date createTime, String email, String ext, Long groupId, String identityNumber, String name, String password, String phoneNumber, String token, Date updateTime, Long userId, String userName) {
        this.createTime = createTime;
-       this.updateTime = updateTime;
-       this.identityNumber = identityNumber;
-       this.phoneNumber = phoneNumber;
        this.email = email;
-       this.userId = userId;
-       this.groupId = groupId;
-       this.name = name;
        this.ext = ext;
-       this.token = token;
+       this.groupId = groupId;
+       this.identityNumber = identityNumber;
+       this.name = name;
        this.password = password;
+       this.phoneNumber = phoneNumber;
+       this.token = token;
+       this.updateTime = updateTime;
+       this.userId = userId;
        this.userName = userName;
     }
    
@@ -76,36 +76,6 @@ public class RegisterUser  implements java.io.Serializable {
         this.createTime = createTime;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="update_time", length=19)
-    public Date getUpdateTime() {
-        return this.updateTime;
-    }
-    
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    
-    @Column(name="identity_number", length=80)
-    public String getIdentityNumber() {
-        return this.identityNumber;
-    }
-    
-    public void setIdentityNumber(String identityNumber) {
-        this.identityNumber = identityNumber;
-    }
-
-    
-    @Column(name="phone_number", length=80)
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-    
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     
     @Column(name="email")
     public String getEmail() {
@@ -114,36 +84,6 @@ public class RegisterUser  implements java.io.Serializable {
     
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    
-    @Column(name="user_id")
-    public Long getUserId() {
-        return this.userId;
-    }
-    
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    
-    @Column(name="group_id")
-    public Long getGroupId() {
-        return this.groupId;
-    }
-    
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }
-
-    
-    @Column(name="name")
-    public String getName() {
-        return this.name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
     }
 
     
@@ -157,13 +97,33 @@ public class RegisterUser  implements java.io.Serializable {
     }
 
     
-    @Column(name="token")
-    public String getToken() {
-        return this.token;
+    @Column(name="group_id")
+    public Long getGroupId() {
+        return this.groupId;
     }
     
-    public void setToken(String token) {
-        this.token = token;
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
+    
+    @Column(name="identity_number", length=80)
+    public String getIdentityNumber() {
+        return this.identityNumber;
+    }
+    
+    public void setIdentityNumber(String identityNumber) {
+        this.identityNumber = identityNumber;
+    }
+
+    
+    @Column(name="name")
+    public String getName() {
+        return this.name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
     
@@ -174,6 +134,46 @@ public class RegisterUser  implements java.io.Serializable {
     
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    
+    @Column(name="phone_number", length=80)
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+    
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    
+    @Column(name="token")
+    public String getToken() {
+        return this.token;
+    }
+    
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="update_time", length=19)
+    public Date getUpdateTime() {
+        return this.updateTime;
+    }
+    
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    
+    @Column(name="user_id")
+    public Long getUserId() {
+        return this.userId;
+    }
+    
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     

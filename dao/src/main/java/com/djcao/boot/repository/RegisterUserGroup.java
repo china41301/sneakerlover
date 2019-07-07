@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-6 20:01:10 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-7 13:37:38 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -24,17 +24,17 @@ public class RegisterUserGroup  implements java.io.Serializable {
 
      private Long id;
      private Date createTime;
-     private Date updateTime;
      private String groupName;
+     private Date updateTime;
      private Long userId;
 
     public RegisterUserGroup() {
     }
 
-    public RegisterUserGroup(Date createTime, Date updateTime, String groupName, Long userId) {
+    public RegisterUserGroup(Date createTime, String groupName, Date updateTime, Long userId) {
        this.createTime = createTime;
-       this.updateTime = updateTime;
        this.groupName = groupName;
+       this.updateTime = updateTime;
        this.userId = userId;
     }
    
@@ -60,16 +60,6 @@ public class RegisterUserGroup  implements java.io.Serializable {
         this.createTime = createTime;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="update_time", length=19)
-    public Date getUpdateTime() {
-        return this.updateTime;
-    }
-    
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
     
     @Column(name="group_name")
     public String getGroupName() {
@@ -78,6 +68,16 @@ public class RegisterUserGroup  implements java.io.Serializable {
     
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="update_time", length=19)
+    public Date getUpdateTime() {
+        return this.updateTime;
+    }
+    
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     

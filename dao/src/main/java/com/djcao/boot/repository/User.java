@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-6 20:01:10 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-7 13:37:38 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -25,31 +25,31 @@ public class User  implements java.io.Serializable {
 
 
      private Long id;
-     private Date createTime;
-     private Date updateTime;
-     private String outerId;
-     private String userName;
-     private String passwd;
-     private Byte isVip;
-     private String ext;
-     private String email;
-     private Integer phoneNum;
      private String account;
+     private Date createTime;
+     private String email;
+     private String ext;
+     private Byte isVip;
+     private String outerId;
+     private String passwd;
+     private Integer phoneNum;
+     private Date updateTime;
+     private String userName;
 
     public User() {
     }
 
-    public User(Date createTime, Date updateTime, String outerId, String userName, String passwd, Byte isVip, String ext, String email, Integer phoneNum, String account) {
-       this.createTime = createTime;
-       this.updateTime = updateTime;
-       this.outerId = outerId;
-       this.userName = userName;
-       this.passwd = passwd;
-       this.isVip = isVip;
-       this.ext = ext;
-       this.email = email;
-       this.phoneNum = phoneNum;
+    public User(String account, Date createTime, String email, String ext, Byte isVip, String outerId, String passwd, Integer phoneNum, Date updateTime, String userName) {
        this.account = account;
+       this.createTime = createTime;
+       this.email = email;
+       this.ext = ext;
+       this.isVip = isVip;
+       this.outerId = outerId;
+       this.passwd = passwd;
+       this.phoneNum = phoneNum;
+       this.updateTime = updateTime;
+       this.userName = userName;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -64,6 +64,16 @@ public class User  implements java.io.Serializable {
         this.id = id;
     }
 
+    
+    @Column(name="account", unique=true, length=120)
+    public String getAccount() {
+        return this.account;
+    }
+    
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="create_time", length=19)
     public Date getCreateTime() {
@@ -72,66 +82,6 @@ public class User  implements java.io.Serializable {
     
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="update_time", length=19)
-    public Date getUpdateTime() {
-        return this.updateTime;
-    }
-    
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    
-    @Column(name="outer_id", length=80)
-    public String getOuterId() {
-        return this.outerId;
-    }
-    
-    public void setOuterId(String outerId) {
-        this.outerId = outerId;
-    }
-
-    
-    @Column(name="user_name", length=80)
-    public String getUserName() {
-        return this.userName;
-    }
-    
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    
-    @Column(name="passwd")
-    public String getPasswd() {
-        return this.passwd;
-    }
-    
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
-    }
-
-    
-    @Column(name="is_vip")
-    public Byte getIsVip() {
-        return this.isVip;
-    }
-    
-    public void setIsVip(Byte isVip) {
-        this.isVip = isVip;
-    }
-
-    
-    @Column(name="ext")
-    public String getExt() {
-        return this.ext;
-    }
-    
-    public void setExt(String ext) {
-        this.ext = ext;
     }
 
     
@@ -145,6 +95,46 @@ public class User  implements java.io.Serializable {
     }
 
     
+    @Column(name="ext")
+    public String getExt() {
+        return this.ext;
+    }
+    
+    public void setExt(String ext) {
+        this.ext = ext;
+    }
+
+    
+    @Column(name="is_vip")
+    public Byte getIsVip() {
+        return this.isVip;
+    }
+    
+    public void setIsVip(Byte isVip) {
+        this.isVip = isVip;
+    }
+
+    
+    @Column(name="outer_id", length=80)
+    public String getOuterId() {
+        return this.outerId;
+    }
+    
+    public void setOuterId(String outerId) {
+        this.outerId = outerId;
+    }
+
+    
+    @Column(name="passwd")
+    public String getPasswd() {
+        return this.passwd;
+    }
+    
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
+
+    
     @Column(name="phone_num")
     public Integer getPhoneNum() {
         return this.phoneNum;
@@ -154,14 +144,24 @@ public class User  implements java.io.Serializable {
         this.phoneNum = phoneNum;
     }
 
-    
-    @Column(name="account", unique=true, length=120)
-    public String getAccount() {
-        return this.account;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="update_time", length=19)
+    public Date getUpdateTime() {
+        return this.updateTime;
     }
     
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    
+    @Column(name="user_name", length=80)
+    public String getUserName() {
+        return this.userName;
+    }
+    
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 

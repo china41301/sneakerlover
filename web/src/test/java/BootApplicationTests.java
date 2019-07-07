@@ -35,13 +35,13 @@ public class BootApplicationTests {
 
     @Autowired
     RestTemplate restTemplate;
-	@Test
+	/*@Test
 	public void contextLoads() {
         Optional<User> byId = userRepository.findById(1L);
         User user = byId.get();
         user.setPhoneNum(12312312);
         userRepository.save(user);
-    }
+    }*/
 
     @Test
     public void test_FindByUserId(){
