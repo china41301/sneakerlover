@@ -7,6 +7,13 @@ import java.util.List;
 
 public interface ShoesItemService {
     /**
+     * 根据id获取鞋子详情
+     * @param id
+     * @return
+     */
+    PackageResult<ShoesItem> getShoesItemById(Long id);
+
+    /**
      * 获取所有鞋子的列表
      * @return
      */

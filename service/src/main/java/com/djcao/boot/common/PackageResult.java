@@ -116,10 +116,12 @@ public class PackageResult<T> {
     }
 
     public PackageResult<T> setPage(Page page){
-        this.total = page.getTotalPages();
         this.code = CodeDef.SUCCESS;
         this.success = Boolean.TRUE;
         this.result = (T)page.getContent();
+        this.pageNo = page.getPageable().getPageNumber();
+        this.pageSize = page.getPageable().getPageSize();
+        this.total = page.getTotalPages() * this.pageSize;
         return this;
     }
 }
