@@ -121,7 +121,8 @@ public class PackageResult<T> {
         this.result = (T)page.getContent();
         this.pageNo = page.getPageable().getPageNumber();
         this.pageSize = page.getPageable().getPageSize();
-        this.total = page.getTotalPages() * this.pageSize;
+        Long totalElements = page.getTotalElements();
+        this.total = totalElements.intValue();
         return this;
     }
 }
