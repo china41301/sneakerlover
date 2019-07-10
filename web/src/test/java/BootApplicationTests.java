@@ -11,6 +11,7 @@ import com.djcao.boot.repository.User;
 import com.djcao.boot.repository.UserRepository;
 import com.djcao.boot.service.RegisterUserService;
 import com.djcao.boot.so.RegisterUserSo;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,12 +60,13 @@ public class BootApplicationTests {
             RegisterUser result = byId.getResult();
             result.setUserName("17826805734");
             result.setPassword("EASTlove7_yy");
-            json.put("data",result);
-            json.put("code","10086");
+            json.put("data", Lists.newArrayList(result));
+            json.put("code",10086);
             //URI uri = restTemplate.postForLocation("http://192.168.0.108:5000/yy/login", json);
             //Object execute = restTemplate.execute(uri, HttpMethod.POST, null, null);
-            Object jsonObject = restTemplate.postForObject("http://192.168.0.108:5000/yy/login", json,
+            Object jsonObject = restTemplate.postForObject("http://47.111.163.9:5000/yy/login", json,
                 Object.class);
+            System.out.println("################");
             System.out.println(jsonObject);
         }catch (Exception ignore){
 

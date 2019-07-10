@@ -3,10 +3,12 @@ package com.djcao.boot.service;
 import java.util.List;
 
 import com.djcao.boot.common.PackageResult;
+import com.djcao.boot.common.PythonResult;
 import com.djcao.boot.repository.RegisterUser;
 import com.djcao.boot.repository.RegisterUserGroupRepository;
 import com.djcao.boot.repository.RegisterUserRepository;
 import com.djcao.boot.so.RegisterUserSo;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,9 +30,15 @@ public class RegisterUserServiceImpl implements RegisterUserService {
     @Autowired
     private RegisterUserGroupRepository registerUserGroupRepository;
 
+    @Autowired
+    private YYService yyService;
     @Override
     public PackageResult<RegisterUser> save(RegisterUser registerUser) {
-        RegisterUser save = registerUserRepository.save(registerUser);
+        PythonResult<List<RegisterUser>> login = yyService.login(Lists.newArrayList(registerUser));
+        if (!login.getCode().equals("1")){
+            return PackageResult.error("东哥返回失败");
+        }
+        RegisterUser save = registerUserRepository.save(login.getData().get(0));
         return PackageResult.success(save);
     }
 

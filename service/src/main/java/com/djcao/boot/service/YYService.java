@@ -2,7 +2,9 @@ package com.djcao.boot.service;
 
 import java.util.List;
 
+import com.djcao.boot.common.PythonResult;
 import com.djcao.boot.repository.RegisterUser;
+import com.google.common.collect.Lists;
 
 /**
  * @author djcao
@@ -10,5 +12,5 @@ import com.djcao.boot.repository.RegisterUser;
  * @date 2019-07-06
  */
 public interface YYService {
-    List<RegisterUser> login(List<RegisterUser> registerUser);
+    PythonResult<List<RegisterUser>> login(List<RegisterUser> registerUser);
 }

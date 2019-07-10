@@ -57,7 +57,7 @@ public class RegisterUserController {
         return registerUserService.findById(id);
     }
 
-    @PostMapping("find/{userId}")
+    @PostMapping("find")
     @ResponseBody
     @ApiOperation("根据userId找下登记的用户")
     public PackageResult<List<RegisterUser>> findByUserId(@RequestBody RegisterUserSo registerUserSo){
