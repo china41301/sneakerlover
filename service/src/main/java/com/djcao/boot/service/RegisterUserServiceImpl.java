@@ -41,7 +41,12 @@ public class RegisterUserServiceImpl implements RegisterUserService {
             .getUserName()) || StringUtils.isBlank(registerUser.getPassword())){
             return PackageResult.error("userId或者userName或者password为空");
         }
-        PythonResult<List<RegisterUser>> login = yyService.login(Lists.newArrayList(registerUser));
+        PythonResult<List<RegisterUser>> login;
+        try {
+            login = yyService.login(Lists.newArrayList(registerUser));
+        }catch (Exception ex){
+            return PackageResult.error("快联系东哥，登录获取token挂了。异常信息:"+ex.getMessage());
+        }
         if (!login.getCode().equals("1")){
             return PackageResult.error("东哥返回失败");
         }
