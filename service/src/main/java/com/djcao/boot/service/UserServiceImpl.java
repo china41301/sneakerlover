@@ -31,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PackageResult<User> login(UserSo so) {
+        if (StringUtils.isBlank(so.getAccount()) || StringUtils.isBlank(so.getPassword())){
+            return PackageResult.error("用户名或密码为空");
+        }
         String account = so.getAccount();
         String password = so.getPassword();
         User dbUser = userRepository.findByPhoneNumOrEmail(account);
