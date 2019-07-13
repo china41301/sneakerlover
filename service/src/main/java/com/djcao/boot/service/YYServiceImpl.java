@@ -20,8 +20,14 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class YYServiceImpl implements YYService{
+    public static final String YY_LOGIN = "/yy/login";
+
+    public static final String YY_CHECK = "/yy/check";
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private ReservationService reservationService;
 
     @Value(value = "${python.host}")
     private String pythonHost = "http://47.111.163.9:5000";
@@ -30,8 +36,15 @@ public class YYServiceImpl implements YYService{
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("data", registerUser);
         jsonObject.put("code",10086);
-        PythonResult<List<RegisterUser>> result = restTemplate.postForObject(pythonHost+"/yy/login", jsonObject,
+        PythonResult<List<RegisterUser>> result = restTemplate.postForObject(pythonHost+ YY_LOGIN, jsonObject,
             PythonResult.class);
         return result;
     }
+
+    @Override
+    public void offShelf(String itemId) {
+
+    }
+
+
 }

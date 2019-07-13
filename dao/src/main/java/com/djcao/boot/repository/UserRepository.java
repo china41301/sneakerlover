@@ -1,5 +1,6 @@
 package com.djcao.boot.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -8,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
  * @workcode wb-cdj390654
  * @date 2019-07-03
  */
-public interface UserRepository extends CrudRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User,Long> {
 
     @Query(value = "select * from user where account = ?1 limit 1",nativeQuery = true)
     User findByPhoneNumOrEmail(String account);

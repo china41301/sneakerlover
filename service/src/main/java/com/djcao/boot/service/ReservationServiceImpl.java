@@ -40,4 +40,9 @@ public class ReservationServiceImpl implements ReservationService {
         registerUsers.forEach(registerUser -> tokens.add(registerUser.getToken()));
         return PackageResult.success();
     }
+
+    @Override
+    public PackageResult<List<ReservationRegistration>> findByItemId(String itemId,int status) {
+        return null;
+    }
 }

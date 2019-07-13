@@ -13,4 +13,8 @@ import com.google.common.collect.Lists;
  */
 public interface YYService {
     PythonResult<List<RegisterUser>> login(List<RegisterUser> registerUser);
+
+    void offShelf(String itemId);
+
+    //PythonResult<List> check()；
 }
