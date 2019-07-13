@@ -19,8 +19,8 @@ public class ShoesItemServiceImpl implements ShoesItemService{
 
     @Override
     @SuppressWarnings("unchecked")
-    public PackageResult<ShoesItem> getShoesItemById(Long id) {
-        return PackageResult.success().setResult(shoesItemRepository.getOne(id));
+    public PackageResult<ShoesItem> getShoesItemById(Long id) throws Exception {
+        return PackageResult.success().setResult(shoesItemRepository.findById(1L).orElseThrow( () ->  new Exception("未找到球鞋信息")));
     }
 
     @Override
@@ -34,8 +34,7 @@ public class ShoesItemServiceImpl implements ShoesItemService{
 
     @Override
     @SuppressWarnings("unchecked")
-    public PackageResult<String> addNewShoesItem(List<ShoesItem> ShoesItems) throws Exception {
-        shoesItemRepository.saveAll(ShoesItems);
-        return PackageResult.success();
+    public PackageResult<List<ShoesItem>> addNewShoesItem(List<ShoesItem> ShoesItems) throws Exception {
+        return PackageResult.success().setResult(shoesItemRepository.saveAll(ShoesItems));
     }
 }

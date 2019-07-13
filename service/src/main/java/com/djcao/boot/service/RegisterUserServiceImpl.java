@@ -114,4 +114,10 @@ public class RegisterUserServiceImpl implements RegisterUserService {
             registerUserSo.getUserId(), pageable);
         return new PackageResult<List<RegisterUser>>().setPage(registerUserByUserId);
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public PackageResult<List<RegisterUser>> findByUserIds(List<Long> ids) {
+        return PackageResult.success().setResult(registerUserRepository.findRegisterUsersByIds(ids));
+    }
 }

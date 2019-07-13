@@ -1,14 +1,12 @@
-import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import com.djcao.boot.common.PackageResult;
-import com.djcao.boot.repository.RegisterUser;
-import com.djcao.boot.repository.User;
-import com.djcao.boot.repository.UserRepository;
+import com.djcao.boot.common.PythonResult;
+import com.djcao.boot.dto.YYCheckRequest;
+import com.djcao.boot.repository.*;
 import com.djcao.boot.service.RegisterUserService;
 import com.djcao.boot.so.RegisterUserSo;
 import org.assertj.core.util.Lists;
@@ -16,7 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpMethod;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -35,7 +32,13 @@ public class BootApplicationTests {
     RegisterUserService registerUserService;
 
     @Autowired
+    RegisterUserRepository registerUserRepository;
+
+    @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    private ShoesItemRepository shoesItemRepository;
 	/*@Test
 	public void contextLoads() {
         Optional<User> byId = userRepository.findById(1L);
@@ -53,23 +56,30 @@ public class BootApplicationTests {
 	}
 
 	@Test
+    public void test_getShoes() throws Exception{
+        List<Long> ids = new ArrayList<>();
+        ids.add(3L);
+        ids.add(4L);
+        ids.add(5L);
+        List<RegisterUser> registerUsers = registerUserRepository.findRegisterUsersByIds(ids);
+        System.out.println(registerUsers);
+    }
+
+	@Test
     public void test_FetchURL() throws Exception {
         try {
             JSONObject json = new JSONObject();
-            PackageResult<RegisterUser> byId = registerUserService.findById(1L);
-            RegisterUser result = byId.getResult();
-            result.setUserName("17826805734");
-            result.setPassword("EASTlove7_yy");
-            json.put("data", Lists.newArrayList(result));
+            YYCheckRequest pythonYYCheckReq = new YYCheckRequest();
+//            pythonYYCheckReq.setItemId("123");
+//            pythonYYCheckReq.setToken("beasdsd2313");
+            json.put("data", Lists.newArrayList(pythonYYCheckReq));
             json.put("code",10086);
-            //URI uri = restTemplate.postForLocation("http://192.168.0.108:5000/yy/login", json);
-            //Object execute = restTemplate.execute(uri, HttpMethod.POST, null, null);
-            Object jsonObject = restTemplate.postForObject("http://47.111.163.9:5000/yy/login", json,
-                Object.class);
+            PythonResult jsonObject = restTemplate.postForObject("http://47.111.163.9:5000/yy/check", json,
+                    PythonResult.class);
             System.out.println("################");
             System.out.println(jsonObject);
         }catch (Exception ignore){
-
+            System.out.println(ignore.getMessage());
         }
     }
 }

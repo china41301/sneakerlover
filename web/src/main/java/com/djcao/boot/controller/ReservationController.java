@@ -23,8 +23,10 @@ public class ReservationController {
     @ApiOperation(value = "球鞋登记")
     @PostMapping("register")
     @ResponseBody
-    public PackageResult<String> registerShoes(@RequestParam @ApiParam("鞋子id") String shoesId,
-                                               @RequestParam(required = false) @ApiParam("用户选择登记的账号id集合") List<String> accountIds) throws Exception {
-        return reservationService.registerShoes(shoesId, accountIds);
+    public PackageResult<String> registerShoes(@RequestParam @ApiParam("鞋子类别id") String shoesItemId,
+                                               @RequestParam @ApiParam("鞋子尺码") String shoesSize,
+                                               @RequestParam @ApiParam("鞋子商店id") String shopId,
+                                               @RequestParam(required = false) @ApiParam("用户选择登记的账号id集合") List<Long> accountIds) throws Exception {
+        return reservationService.registerShoes(shoesItemId, shoesSize, shopId, accountIds);
     }
 }

@@ -11,7 +11,7 @@ public interface ShoesItemService {
      * @param id
      * @return
      */
-    PackageResult<ShoesItem> getShoesItemById(Long id);
+    PackageResult<ShoesItem> getShoesItemById(Long id) throws Exception;
 
     /**
      * 获取所有鞋子的列表
@@ -24,5 +24,5 @@ public interface ShoesItemService {
      * @param ShoesItems
      * @return
      */
-    PackageResult<String> addNewShoesItem(List<ShoesItem> ShoesItems) throws Exception;
+    PackageResult<List<ShoesItem>> addNewShoesItem(List<ShoesItem> ShoesItems) throws Exception;
 }

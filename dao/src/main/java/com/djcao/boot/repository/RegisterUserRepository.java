@@ -17,4 +17,7 @@ public interface RegisterUserRepository extends JpaRepository<RegisterUser,Long>
 
     @Query(value = "select t from RegisterUser t where t.userId = :userId")
     Page<RegisterUser> findRegisterUserByUserId(@Param("userId")Long userId, Pageable pageable);
+
+    @Query(value = "select t from RegisterUser t where t.id in :ids")
+    List<RegisterUser> findRegisterUsersByIds(@Param("ids")List<Long> ids);
 }

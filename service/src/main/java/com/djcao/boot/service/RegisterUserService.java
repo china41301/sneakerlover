@@ -23,4 +23,6 @@ public interface RegisterUserService {
     PackageResult<RegisterUser> findById(Long id) throws Exception;
 
     PackageResult<List<RegisterUser>> findByUserId(RegisterUserSo registerUserSo);
+
+    PackageResult<List<RegisterUser>> findByUserIds(List<Long> ids);
 }
