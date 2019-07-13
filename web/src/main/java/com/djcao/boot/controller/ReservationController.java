@@ -24,8 +24,7 @@ public class ReservationController {
     @PostMapping("register")
     @ResponseBody
     public PackageResult<String> registerShoes(@RequestParam @ApiParam("鞋子id") String shoesId,
-                                               @RequestParam @ApiParam("登录用户id") String userId,
-                                               @RequestParam(required = false) @ApiParam("用户选择登记的账号id集合（如果是全选，则不传此项）") List<String> accountIds) throws Exception {
-        return reservationService.registerShoes(shoesId, userId, accountIds);
+                                               @RequestParam(required = false) @ApiParam("用户选择登记的账号id集合") List<String> accountIds) throws Exception {
+        return reservationService.registerShoes(shoesId, accountIds);
     }
 }

@@ -7,10 +7,8 @@ import javax.persistence.criteria.Root;
 
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.repository.*;
-import com.djcao.boot.so.RegisterUserSo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -31,14 +29,12 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public PackageResult<String> registerShoes(String shoesId, String userId, List<String> accountIds) throws Exception {
+    public PackageResult<String> registerShoes(String shoesId, List<String> accountIds) throws Exception {
         ShoesItem shoesItem = shoesItemService.getShoesItemById(new Long(shoesId)).getResult();
         List<String> tokens = new ArrayList<>();
         List<RegisterUser> registerUsers = new ArrayList<>();
         if(null == accountIds || accountIds.isEmpty()) {
-            RegisterUserSo registerUserSo = new RegisterUserSo();
-            registerUserSo.setUserId(new Long(userId));
-            registerUsers = registerUserService.findByUserId(registerUserSo).getResult();
+            throw new Exception("请选择登记账号！");
         } else {
             //TODO 根据accountIds获取registerUsers
         }

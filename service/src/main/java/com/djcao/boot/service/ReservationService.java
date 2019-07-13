@@ -6,7 +6,7 @@ import com.djcao.boot.repository.ReservationRegistration;
 import java.util.List;
 
 public interface ReservationService {
-    PackageResult<String> registerShoes(String shoesId, String userId, List<String> accountIds) throws Exception;
+    PackageResult<String> registerShoes(String shoesId, List<String> accountIds) throws Exception;
 
     PackageResult<List<ReservationRegistration>> findByItemId(String itemId,Integer status);
 }
