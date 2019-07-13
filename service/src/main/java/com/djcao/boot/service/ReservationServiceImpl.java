@@ -65,7 +65,7 @@ public class ReservationServiceImpl implements ReservationService {
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }
         };
-        reservationRegistrationRepository.findAll();
-        return null;
+        List<ReservationRegistration> all = reservationRegistrationRepository.findAll(specification);
+        return PackageResult.success(all);
     }
 }
