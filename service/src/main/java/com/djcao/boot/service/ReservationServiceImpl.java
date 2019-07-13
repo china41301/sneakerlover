@@ -1,9 +1,18 @@
 package com.djcao.boot.service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.repository.*;
 import com.djcao.boot.so.RegisterUserSo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,9 +22,6 @@ import java.util.List;
 public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private ReservationRegistrationRepository reservationRegistrationRepository;
-
-    @Autowired
-    private ReservationUserRepository reservationUserRepository;
 
     @Autowired
     private ShoesItemService shoesItemService;
@@ -42,7 +48,24 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public PackageResult<List<ReservationRegistration>> findByItemId(String itemId,int status) {
+    public PackageResult<List<ReservationRegistration>> findByItemId(String itemId,Integer status) {
+        Specification<ReservationRegistration> specification = new Specification<ReservationRegistration>() {
+            @Nullable
+            @Override
+            public Predicate toPredicate(Root<ReservationRegistration> root, CriteriaQuery<?> query,
+                CriteriaBuilder cb) {
+                List<Predicate> list = new ArrayList<Predicate>();
+
+                if (!StringUtils.isEmpty(itemId)) {
+                    list.add(cb.equal(root.get("item_id").as(String.class), itemId));
+                }
+                if (null != status){
+                    list.add(cb.equal(root.get("status").as(Integer.class), status));
+                }
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }
+        };
+        reservationRegistrationRepository.findAll();
         return null;
     }
 }

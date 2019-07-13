@@ -8,5 +8,5 @@ import java.util.List;
 public interface ReservationService {
     PackageResult<String> registerShoes(String shoesId, String userId, List<String> accountIds) throws Exception;
 
-    PackageResult<List<ReservationRegistration>> findByItemId(String itemId,int status);
+    PackageResult<List<ReservationRegistration>> findByItemId(String itemId,Integer status);
 }

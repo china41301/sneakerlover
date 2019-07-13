@@ -9,7 +9,6 @@ import java.util.Optional;
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.common.PythonResult;
 import com.djcao.boot.repository.RegisterUser;
-import com.djcao.boot.repository.RegisterUserGroupRepository;
 import com.djcao.boot.repository.RegisterUserRepository;
 import com.djcao.boot.so.RegisterUserSo;
 import com.google.common.collect.Lists;
@@ -32,9 +31,6 @@ public class RegisterUserServiceImpl implements RegisterUserService {
 
     @Autowired
     private RegisterUserRepository registerUserRepository;
-
-    @Autowired
-    private RegisterUserGroupRepository registerUserGroupRepository;
 
     @Autowired
     private YYService yyService;
@@ -62,11 +58,6 @@ public class RegisterUserServiceImpl implements RegisterUserService {
     public PackageResult<RegisterUser> update(RegisterUser registerUser) {
         if (Objects.isNull(registerUser.getId())){
             return PackageResult.error("id不能为空");
-        }
-        if (registerUser.getGroupId() != null ){
-            if (!registerUserGroupRepository.existsById(registerUser.getGroupId())){
-                return PackageResult.error("用户组不存在");
-            }
         }
         Optional<RegisterUser> byId = registerUserRepository.findById(registerUser.getId());
         if (!byId.isPresent()){
