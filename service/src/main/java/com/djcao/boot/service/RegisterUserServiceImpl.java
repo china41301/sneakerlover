@@ -1,5 +1,7 @@
 package com.djcao.boot.service;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @author djcao
@@ -50,8 +53,9 @@ public class RegisterUserServiceImpl implements RegisterUserService {
         if (!login.getCode().equals("1")){
             return PackageResult.error("东哥返回失败");
         }
-        RegisterUser save = registerUserRepository.save(login.getData().get(0));
-        return PackageResult.success(save);
+        registerUser.setToken(login.getData().get(0).getToken());
+        registerUser = registerUserRepository.save(registerUser);
+        return PackageResult.success(registerUser);
     }
 
     @Override
@@ -69,9 +73,23 @@ public class RegisterUserServiceImpl implements RegisterUserService {
             return PackageResult.error("抢鞋用户不存在");
         }
         RegisterUser dbUser= byId.get();
-        dbUser.setName(registerUser.getName());
-        dbUser = registerUserRepository.save(dbUser);
-        return PackageResult.success(dbUser);
+        if (!dbUser.getUserName().equals(registerUser.getName()) || !dbUser.getPassword().equals
+            (registerUser.getPassword())){
+            PythonResult<List<RegisterUser>> login;
+            try {
+                login = yyService.login(Lists.newArrayList(registerUser));
+            }catch (Exception ex){
+                return PackageResult.error("快联系东哥，登录获取token挂了。异常信息:"+ex.getMessage());
+            }
+            if (!login.getCode().equals("1") || CollectionUtils.isEmpty(login.getData()) ||
+                StringUtils.isBlank(login.getData().get(0).getToken())){
+                return PackageResult.error("东哥返回失败");
+            }
+            registerUser.setToken(login.getData().get(0).getToken());
+        }
+        registerUser.setUpdateTime(new Date());
+        registerUser = registerUserRepository.save(registerUser);
+        return PackageResult.success(registerUser);
     }
 
     @Override
