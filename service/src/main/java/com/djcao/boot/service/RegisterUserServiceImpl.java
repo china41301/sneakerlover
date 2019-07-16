@@ -46,7 +46,7 @@ public class RegisterUserServiceImpl implements RegisterUserService {
         }catch (Exception ex){
             return PackageResult.error("快联系东哥，登录获取token挂了。异常信息:"+ex.getMessage());
         }
-        if (!login.getCode().equals("1")){
+        if (!login.getCode().equals("0")){
             return PackageResult.error("东哥返回失败");
         }
         registerUser.setToken(login.getData().get(0).getToken());
