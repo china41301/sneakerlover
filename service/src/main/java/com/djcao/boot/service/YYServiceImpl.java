@@ -41,11 +41,11 @@ public class YYServiceImpl implements YYService{
     @Value(value = "${python.host}")
     private String pythonHost = "http://47.111.163.9:5000";
     @Override
-    public PythonResult<List<RegisterUser>> login(List<RegisterUser> registerUser) {
+    public PythonResult<List<Map<String,String>>> login(List<RegisterUser> registerUser) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("data", registerUser);
         jsonObject.put("code",10086);
-        PythonResult<List<RegisterUser>> result = restTemplate.postForObject(pythonHost+ YY_LOGIN, jsonObject,
+        PythonResult<List<Map<String,String>>> result = restTemplate.postForObject(pythonHost+ YY_LOGIN, jsonObject,
             PythonResult.class);
         return result;
     }

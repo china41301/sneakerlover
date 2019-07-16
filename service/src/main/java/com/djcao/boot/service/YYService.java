@@ -1,6 +1,7 @@
 package com.djcao.boot.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -15,7 +16,7 @@ import com.google.common.collect.Lists;
  * @date 2019-07-06
  */
 public interface YYService {
-    PythonResult<List<RegisterUser>> login(List<RegisterUser> registerUser);
+    PythonResult<List<Map<String,String>>> login(List<RegisterUser> registerUser);
 
     Boolean offShelf(String itemId);
 

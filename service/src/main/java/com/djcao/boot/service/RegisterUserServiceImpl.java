@@ -2,7 +2,9 @@ package com.djcao.boot.service;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -40,7 +42,7 @@ public class RegisterUserServiceImpl implements RegisterUserService {
             .getUserName()) || StringUtils.isBlank(registerUser.getPassword())){
             return PackageResult.error("userId或者userName或者password为空");
         }
-        PythonResult<List<RegisterUser>> login;
+        PythonResult<List<Map<String,String>>> login;
         try {
             login = yyService.login(Lists.newArrayList(registerUser));
         }catch (Exception ex){
@@ -49,7 +51,7 @@ public class RegisterUserServiceImpl implements RegisterUserService {
         if (!login.getCode().equals("0")){
             return PackageResult.error("东哥返回失败");
         }
-        registerUser.setToken(login.getData().get(0).getToken());
+        registerUser.setToken(login.getData().get(0).get("token"));
         registerUser = registerUserRepository.save(registerUser);
         return PackageResult.success(registerUser);
     }
@@ -66,17 +68,17 @@ public class RegisterUserServiceImpl implements RegisterUserService {
         RegisterUser dbUser= byId.get();
         if (!dbUser.getUserName().equals(registerUser.getName()) || !dbUser.getPassword().equals
             (registerUser.getPassword())){
-            PythonResult<List<RegisterUser>> login;
+            PythonResult<List<Map<String,String>>> login;
             try {
                 login = yyService.login(Lists.newArrayList(registerUser));
             }catch (Exception ex){
                 return PackageResult.error("快联系东哥，登录获取token挂了。异常信息:"+ex.getMessage());
             }
-            if (!login.getCode().equals("1") || CollectionUtils.isEmpty(login.getData()) ||
-                StringUtils.isBlank(login.getData().get(0).getToken())){
+            if (!login.getCode().equals("0") || CollectionUtils.isEmpty(login.getData()) ||
+                StringUtils.isBlank(login.getData().get(0).get("token"))){
                 return PackageResult.error("东哥返回失败");
             }
-            registerUser.setToken(login.getData().get(0).getToken());
+            registerUser.setToken(login.getData().get(0).get("token"));
         }
         registerUser.setUpdateTime(new Date());
         registerUser = registerUserRepository.save(registerUser);
