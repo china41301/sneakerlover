@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import static com.djcao.boot.common.CodeDef.BE_THE_LUCKY_NUMBER;
@@ -66,7 +67,7 @@ public class YYServiceImpl implements YYService{
                 PackageResult<List<ReservationRegistration>> packageResult = reservationService
                     .findByItemId(itemId, 1);
                 PythonResult<List<Map<String,String>>> pythonResult = check(packageResult.getResult());
-                if (!pythonResult.getCode().equals("0")){
+                if (!pythonResult.getCode().equals("0") || CollectionUtils.isEmpty(packageResult.getResult())){
                     logger.error("");
                     continue;
                 }
