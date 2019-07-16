@@ -33,7 +33,7 @@ public class ReservationController {
 
     @ApiOperation(value = "登记查询接口")
     @PostMapping("find/{userId}")
-    public PackageResult<List<ReservationRegistration>> findByUserId(@PathVariable(name = "useId")Long userId){
+    public PackageResult<List<ReservationRegistration>> findByUserId(@PathVariable(name = "useId") @ApiParam("登录用户的id") Long userId){
         return reservationService.findByUserId(userId);
     }
 }
