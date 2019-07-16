@@ -52,6 +52,9 @@ public class RegisterUserServiceImpl implements RegisterUserService {
             return PackageResult.error("东哥返回失败");
         }
         registerUser.setToken(login.getData().get(0).get("token"));
+        registerUser.setCreateTime(new Date());
+        registerUser.setUpdateTime(new Date());
+        registerUser.setStatus(1);
         registerUser = registerUserRepository.save(registerUser);
         return PackageResult.success(registerUser);
     }
@@ -105,7 +108,6 @@ public class RegisterUserServiceImpl implements RegisterUserService {
         return PackageResult.success(registerUserRepository.findById(id).orElseThrow( () ->  new Exception("未找到登记信息")));
     }
 
-    // FIXME 没有分页返回pageSize pageNum
     @Override
     public PackageResult<List<RegisterUser>> findByUserId(RegisterUserSo registerUserSo) {
         if (Objects.isNull(registerUserSo.getUserId()))

@@ -29,4 +29,5 @@ public class ReservationController {
                                                @RequestParam(required = false) @ApiParam("用户选择登记的账号id集合") List<Long> accountIds) throws Exception {
         return reservationService.registerShoes(shoesItemId, shoesSize, shopId, accountIds);
     }
+
 }

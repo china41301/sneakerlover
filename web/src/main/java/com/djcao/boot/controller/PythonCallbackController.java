@@ -1,5 +1,7 @@
 package com.djcao.boot.controller;
 
+import java.util.List;
+
 import com.djcao.boot.service.YYService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class PythonCallbackController {
 
     @ApiOperation("鞋子下架回调")
     @RequestMapping("offShelfCallback")
-    public Boolean offShelf(@RequestBody String itemId){
-        return yyService.offShelf(itemId);
+    public Boolean offShelf(@RequestBody List<String> itemIdList){
+        return yyService.offShelf(itemIdList);
     }
 }

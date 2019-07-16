@@ -1,5 +1,6 @@
 package com.djcao.boot.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -14,10 +15,16 @@ import com.djcao.boot.repository.RegisterUser;
 import com.djcao.boot.repository.ReservationRegistration;
 import com.djcao.boot.repository.ReservationRegistrationRepository;
 import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import static com.djcao.boot.common.CodeDef.BE_THE_LUCKY_NUMBER;
+import static com.djcao.boot.common.CodeDef.BE_THE_UNLUCKY_NUMBER;
+import static com.djcao.boot.common.CodeDef.YY_LUCKY_NUMBER;
 
 /**
  * @author djcao
@@ -38,6 +45,8 @@ public class YYServiceImpl implements YYService{
     @Autowired
     private ReservationRegistrationRepository reservationRegistrationRepository;
 
+    Logger logger = LoggerFactory.getLogger(YYService.class);
+
     @Value(value = "${python.host}")
     private String pythonHost = "http://47.111.163.9:5000";
     @Override
@@ -51,37 +60,45 @@ public class YYServiceImpl implements YYService{
     }
 
     @Override
-    public Boolean offShelf(String itemId) {
-        PackageResult<List<ReservationRegistration>> packageResult = reservationService
-            .findByItemId(itemId, 1);
-        PythonResult<List<JSONObject>> pythonResult = check(packageResult.getResult());
-        if (!pythonResult.getCode().equals("1")){
-            //todo 如何补偿
-            return false;
-        }
+    public Boolean offShelf(List<String> itemIdList) {
+        for (String itemId : itemIdList){
+            try {
+                PackageResult<List<ReservationRegistration>> packageResult = reservationService
+                    .findByItemId(itemId, 1);
+                PythonResult<List<Map<String,String>>> pythonResult = check(packageResult.getResult());
+                if (!pythonResult.getCode().equals("0")){
+                    logger.error("");
+                    continue;
+                }
 
-        Map<Long, ReservationRegistration> collect = packageResult.getResult().stream()
-            .collect(Collectors.toMap
-                (ReservationRegistration::getId, Function.identity()));
-        pythonResult.getData().stream().forEach(jsonObject -> {
-            if (null != collect.get(jsonObject.getLong("id"))){
-                ReservationRegistration reservationRegistration = collect.get(jsonObject.getLong
-                    ("id"));
-                //处理逻辑
+                Map<Long, ReservationRegistration> collect = packageResult.getResult().stream()
+                    .collect(Collectors.toMap
+                        (ReservationRegistration::getId, Function.identity()));
+                pythonResult.getData().forEach(map -> {
+                    if (null != collect.get(Long.valueOf(map.get("id")))){
+                        ReservationRegistration reservationRegistration = collect.get(Long.valueOf(map.get
+                            ("id")));
+                        reservationRegistration.setStatus(YY_LUCKY_NUMBER.equals(map.get("state")) ? BE_THE_LUCKY_NUMBER : BE_THE_UNLUCKY_NUMBER);
+                        //处理逻辑
+                        reservationRegistration.setUpdateTime(new Date());
+                    }
+                });
+                reservationRegistrationRepository.saveAll(collect.values());
+            }catch (Exception ex){
+                logger.error("处理失败",ex);
             }
-        });
-        reservationRegistrationRepository.saveAll(collect.values());
+        }
         //success;
         return Boolean.TRUE;
     }
 
 
     @Override
-    public PythonResult<List<JSONObject>> check(List<ReservationRegistration> param){
+    public PythonResult<List<Map<String,String>>> check(List<ReservationRegistration> param){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("data", param);
         jsonObject.put("code",10086);
-        PythonResult<List<JSONObject>> pythonResult = restTemplate.postForObject(pythonHost+ YY_CHECK,
+        PythonResult<List<Map<String,String>>> pythonResult = restTemplate.postForObject(pythonHost+ YY_CHECK,
             jsonObject,
             PythonResult.class);
         return pythonResult;

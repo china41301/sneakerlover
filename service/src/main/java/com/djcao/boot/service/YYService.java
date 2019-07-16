@@ -18,7 +18,7 @@ import com.google.common.collect.Lists;
 public interface YYService {
     PythonResult<List<Map<String,String>>> login(List<RegisterUser> registerUser);
 
-    Boolean offShelf(String itemId);
+    Boolean offShelf(List<String> itemIdList);
 
-    PythonResult<List<JSONObject>> check(List<ReservationRegistration> param);
+    PythonResult<List<Map<String,String>>> check(List<ReservationRegistration> param);
 }
