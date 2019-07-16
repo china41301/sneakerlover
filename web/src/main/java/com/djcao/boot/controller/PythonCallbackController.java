@@ -5,6 +5,7 @@ import java.util.List;
 import com.djcao.boot.service.YYService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class PythonCallbackController {
     private YYService yyService;
 
     @ApiOperation("鞋子下架回调")
-    @RequestMapping("offShelfCallback")
+    @PostMapping("offShelfCallback")
     public Boolean offShelf(@RequestBody List<String> itemIdList){
         return yyService.offShelf(itemIdList);
     }
