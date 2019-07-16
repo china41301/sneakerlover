@@ -61,4 +61,14 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
+    @Override
+    public PackageResult<User> save(User user) {
+        user.setId(null);
+        user.setUpdateTime(new Date());
+        user.setCreateTime(new Date());
+        user.setIsVip(Byte.valueOf("1"));
+        user = userRepository.save(user);
+        return PackageResult.success(user);
+    }
 }

@@ -43,4 +43,10 @@ public class UserController {
         return userService.login(so);
     }
 
+    @ApiOperation(value = "添加用户")
+    @PostMapping("save")
+    public PackageResult<User> save(@RequestBody User user){
+        return userService.save(user);
+    }
+
 }

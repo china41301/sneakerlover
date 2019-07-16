@@ -17,4 +17,6 @@ public interface UserService {
     //用于登录
   PackageResult<User> login(UserSo so);
 
+  PackageResult<User> save(User user);
+
 }
