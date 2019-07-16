@@ -10,4 +10,6 @@ public interface ReservationService {
 
     PackageResult<List<ReservationRegistration>> findByItemId(String itemId,Integer status);
 
+    PackageResult<List<ReservationRegistration>> findByUserId(Long userId);
+
 }

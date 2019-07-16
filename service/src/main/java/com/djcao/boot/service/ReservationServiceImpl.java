@@ -15,6 +15,7 @@ import com.djcao.boot.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -112,6 +113,25 @@ public class ReservationServiceImpl implements ReservationService {
             }
         };
         List<ReservationRegistration> all = reservationRegistrationRepository.findAll(specification);
+        return PackageResult.success(all);
+    }
+
+    @Override
+    public PackageResult<List<ReservationRegistration>> findByUserId(Long userId) {
+        if (userId == null)
+            return PackageResult.error("userId不能为空");
+        Specification<ReservationRegistration> specification = new Specification<ReservationRegistration>() {
+            @Nullable
+            @Override
+            public Predicate toPredicate(Root<ReservationRegistration> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder cb) {
+                List<Predicate> list = new ArrayList<Predicate>();
+
+                list.add(cb.equal(root.get("user_id").as(Long.class), userId));
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }
+        };
+        List<ReservationRegistration> all = reservationRegistrationRepository.findAll(specification,Sort.by("create_time","desc"));
         return PackageResult.success(all);
     }
 }

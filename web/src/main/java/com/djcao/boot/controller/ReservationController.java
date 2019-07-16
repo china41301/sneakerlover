@@ -1,6 +1,7 @@
 package com.djcao.boot.controller;
 
 import com.djcao.boot.common.PackageResult;
+import com.djcao.boot.repository.ReservationRegistration;
 import com.djcao.boot.service.ReservationService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,4 +31,9 @@ public class ReservationController {
         return reservationService.registerShoes(shoesItemId, shoesSize, shopId, accountIds);
     }
 
+    @ApiOperation(value = "登记查询接口")
+    @PostMapping("find/{userId}")
+    public PackageResult<List<ReservationRegistration>> findByUserId(@PathVariable(name = "useId")Long userId){
+        return reservationService.findByUserId(userId);
+    }
 }
