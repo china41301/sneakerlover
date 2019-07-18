@@ -45,10 +45,12 @@ public class UserController {
     @ResponseBody
     public PackageResult<User> login(@RequestBody UserSo so, HttpServletRequest request, HttpServletResponse response){
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies){
-            if (cookie.getName().equalsIgnoreCase("id")){
-                User user = (User)request.getSession().getAttribute(cookie.getValue());
-                return PackageResult.success(user);
+        if(null != cookies){
+            for (Cookie cookie : cookies){
+                if (cookie.getName().equalsIgnoreCase("id")){
+                    User user = (User)request.getSession().getAttribute(cookie.getValue());
+                    return PackageResult.success(user);
+                }
             }
         }
         PackageResult<User> login = userService.login(so);
