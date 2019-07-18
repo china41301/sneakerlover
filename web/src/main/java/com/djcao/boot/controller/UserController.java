@@ -49,7 +49,9 @@ public class UserController {
             for (Cookie cookie : cookies){
                 if (cookie.getName().equalsIgnoreCase("id")){
                     User user = (User)request.getSession().getAttribute(cookie.getValue());
-                    return PackageResult.success(user);
+                    if (null != user){
+                        return PackageResult.success(user);
+                    }
                 }
             }
         }
