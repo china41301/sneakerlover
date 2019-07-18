@@ -27,8 +27,12 @@ public class LoggerAspect {
     @Around(value = "pointcut()")
     public Object aroutd(ProceedingJoinPoint pjp) throws Throwable {
         try {
-            logger.info(pjp.getTarget().getClass().getSimpleName()+"."+pjp.getSignature().getName
-                ()+" args:"+JSON.toJSONString(pjp.getArgs()));
+            try{
+                logger.info(pjp.getTarget().getClass().getSimpleName()+"."+pjp.getSignature().getName
+                    ()+" args:"+JSON.toJSONString(pjp.getArgs()));
+            }catch(Throwable t){
+
+            }
             Object proceed = pjp.proceed();
             logger.info(JSON.toJSONString(proceed));
             return proceed;
