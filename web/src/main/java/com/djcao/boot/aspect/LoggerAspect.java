@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * @author djcao
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
  * @date 2019/7/18
  */
 @Aspect
+@Component
 public class LoggerAspect {
 
     Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
