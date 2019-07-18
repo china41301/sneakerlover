@@ -27,4 +27,40 @@ public class YYSignRequest {
      * 登记鞋子的会员账号token
      */
     private String token;
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public YYSignRequest setItemId(String itemId) {
+        this.itemId = itemId;
+        return this;
+    }
+
+    public String getShoesSize() {
+        return shoesSize;
+    }
+
+    public YYSignRequest setShoesSize(String shoesSize) {
+        this.shoesSize = shoesSize;
+        return this;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public YYSignRequest setShopId(String shopId) {
+        this.shopId = shopId;
+        return this;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public YYSignRequest setToken(String token) {
+        this.token = token;
+        return this;
+    }
 }

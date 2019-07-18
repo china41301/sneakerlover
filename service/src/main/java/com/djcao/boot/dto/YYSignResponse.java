@@ -21,4 +21,28 @@ public class YYSignResponse {
      * 预约登记返回的抽签码
      */
     private String sign_id;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getSign_id() {
+        return sign_id;
+    }
+
+    public void setSign_id(String sign_id) {
+        this.sign_id = sign_id;
+    }
 }

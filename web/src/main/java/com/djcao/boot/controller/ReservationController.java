@@ -1,6 +1,7 @@
 package com.djcao.boot.controller;
 
 import com.djcao.boot.common.PackageResult;
+import com.djcao.boot.dto.RegisterShoesRequest;
 import com.djcao.boot.repository.ReservationRegistration;
 import com.djcao.boot.service.ReservationService;
 import io.swagger.annotations.ApiOperation;
@@ -24,11 +25,8 @@ public class ReservationController {
     @ApiOperation(value = "球鞋登记")
     @PostMapping("register")
     @ResponseBody
-    public PackageResult<String> registerShoes(@RequestParam @ApiParam("鞋子类别id") String shoesItemId,
-                                               @RequestParam @ApiParam("鞋子尺码") String shoesSize,
-                                               @RequestParam @ApiParam("鞋子商店id") String shopId,
-                                               @RequestParam(required = false) @ApiParam("用户选择登记的账号id集合") List<Long> accountIds) throws Exception {
-        return reservationService.registerShoes(shoesItemId, shoesSize, shopId, accountIds);
+    public PackageResult<String> registerShoes(@RequestBody RegisterShoesRequest registerShoesRequest) throws Exception {
+        return reservationService.registerShoes(registerShoesRequest.getShoesItemId(), registerShoesRequest.getShoesSize(), registerShoesRequest.getShoesItemId(), registerShoesRequest.getAccountIds());
     }
 
     @ApiOperation(value = "登记查询接口")
