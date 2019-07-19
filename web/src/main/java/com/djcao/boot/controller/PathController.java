@@ -40,7 +40,7 @@ public class PathController {
         return words;
     }
 
-    @GetMapping
+    @GetMapping("get")
     public String getSession(HttpServletRequest request){
         return request.getSession().getAttribute(TEST_SESSION).toString();
     }
