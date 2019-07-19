@@ -15,4 +15,6 @@ public class CodeDef {
     public static final int BE_THE_UNLUCKY_NUMBER = 3;
 
     public static final String YY_LUCKY_NUMBER = "3";
+
+    public static final String TEST_SESSION = "testSession";
 }
