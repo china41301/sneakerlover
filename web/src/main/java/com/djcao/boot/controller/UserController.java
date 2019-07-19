@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.djcao.boot.common.CodeDef.CURRENT_USER;
+
 /**
  * @author djcao
  * @workcode wb-cdj390654
@@ -43,25 +45,16 @@ public class UserController {
     @ApiOperation(value = "用户登录")
     @PostMapping("login")
     @ResponseBody
-    public PackageResult<User> login(@RequestBody UserSo so, HttpServletRequest request, HttpServletResponse response){
-        Cookie[] cookies = request.getCookies();
-        if(null != cookies){
-            for (Cookie cookie : cookies){
-                if (cookie.getName().equalsIgnoreCase("id")){
-                    User user = (User)request.getSession().getAttribute(cookie.getValue());
-                    if (null != user){
-                        return PackageResult.success(user);
-                    }
-                }
-            }
+    public PackageResult<User> login(@RequestBody UserSo so, HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute(CURRENT_USER);
+        if (null != user){
+            return PackageResult.success(user);
         }
         PackageResult<User> login = userService.login(so);
         if (login.isSuccess()){
             User result = login.getResult();
             HttpSession session = request.getSession();
-            session.setAttribute(result.getId().toString(),result);
-            Cookie cookie = new Cookie("id",result.getId().toString());
-            response.addCookie(cookie);
+            session.setAttribute(CURRENT_USER,result);
         }
         return login;
     }

@@ -17,4 +17,6 @@ public class CodeDef {
     public static final String YY_LUCKY_NUMBER = "3";
 
     public static final String TEST_SESSION = "testSession";
+
+    public static final String CURRENT_USER = "CURRENT_USER";
 }
