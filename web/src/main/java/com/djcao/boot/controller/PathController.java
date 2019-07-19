@@ -39,4 +39,9 @@ public class PathController {
         request.getSession().setAttribute(TEST_SESSION,words);
         return words;
     }
+
+    @GetMapping
+    public String getSession(HttpServletRequest request){
+        return request.getSession().getAttribute(TEST_SESSION).toString();
+    }
 }
