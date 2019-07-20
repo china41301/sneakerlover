@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-13 14:18:27 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-20 11:22:30 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -65,7 +65,7 @@ public class User  implements java.io.Serializable {
     }
 
     
-    @Column(name="account", unique=true, length=120)
+    @Column(name="account", unique=true, length=80)
     public String getAccount() {
         return this.account;
     }

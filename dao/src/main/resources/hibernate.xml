@@ -12,7 +12,7 @@
         <!-- hibernate.connection.password : 连接数据库的密码 -->
         <property name="hibernate.connection.password">!!!changfa4957</property>
         <!-- hibernate.connection.url : 连接数据库的地址,路径 -->
-        <property name="hibernate.connection.url">jdbc:mysql://47.111.163.9:3306/sneakerlover</property>
+        <property name="hibernate.connection.url">jdbc:mysql://47.110.231.239:3306/sneakerlover</property>
         <!-- 数据库方言配置org.hibernate.dialect.MySQLDialect (选择最短的) -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     </session-factory>

@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-13 14:18:27 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-20 11:22:30 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -25,15 +25,16 @@ public class ReservationRegistration  implements java.io.Serializable {
      private Long id;
      private Date createTime;
      private Long itemId;
+     private String registerNum;
+     private long registerUserId;
+     private String signNumber;
      private Integer status;
+     private String token;
      private Date triggerTime;
      private Date updateTime;
      private Long userId;
-     private long registerUserId;
-     private String signNumber;
-     private String registerNum;
      private String yyResult;
-     private String token;
+     private String size;
 
     public ReservationRegistration() {
     }
@@ -42,18 +43,19 @@ public class ReservationRegistration  implements java.io.Serializable {
     public ReservationRegistration(long registerUserId) {
         this.registerUserId = registerUserId;
     }
-    public ReservationRegistration(Date createTime, Long itemId, Integer status, Date triggerTime, Date updateTime, Long userId, long registerUserId, String signNumber, String registerNum, String yyResult, String token) {
+    public ReservationRegistration(Date createTime, Long itemId, String registerNum, long registerUserId, String signNumber, Integer status, String token, Date triggerTime, Date updateTime, Long userId, String yyResult, String size) {
        this.createTime = createTime;
        this.itemId = itemId;
+       this.registerNum = registerNum;
+       this.registerUserId = registerUserId;
+       this.signNumber = signNumber;
        this.status = status;
+       this.token = token;
        this.triggerTime = triggerTime;
        this.updateTime = updateTime;
        this.userId = userId;
-       this.registerUserId = registerUserId;
-       this.signNumber = signNumber;
-       this.registerNum = registerNum;
        this.yyResult = yyResult;
-       this.token = token;
+       this.size = size;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -89,6 +91,36 @@ public class ReservationRegistration  implements java.io.Serializable {
     }
 
     
+    @Column(name="register_num")
+    public String getRegisterNum() {
+        return this.registerNum;
+    }
+    
+    public void setRegisterNum(String registerNum) {
+        this.registerNum = registerNum;
+    }
+
+    
+    @Column(name="register_user_id", nullable=false)
+    public long getRegisterUserId() {
+        return this.registerUserId;
+    }
+    
+    public void setRegisterUserId(long registerUserId) {
+        this.registerUserId = registerUserId;
+    }
+
+    
+    @Column(name="sign_number")
+    public String getSignNumber() {
+        return this.signNumber;
+    }
+    
+    public void setSignNumber(String signNumber) {
+        this.signNumber = signNumber;
+    }
+
+    
     @Column(name="status")
     public Integer getStatus() {
         return this.status;
@@ -96,6 +128,16 @@ public class ReservationRegistration  implements java.io.Serializable {
     
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    
+    @Column(name="token")
+    public String getToken() {
+        return this.token;
+    }
+    
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -129,36 +171,6 @@ public class ReservationRegistration  implements java.io.Serializable {
     }
 
     
-    @Column(name="register_user_id", nullable=false)
-    public long getRegisterUserId() {
-        return this.registerUserId;
-    }
-    
-    public void setRegisterUserId(long registerUserId) {
-        this.registerUserId = registerUserId;
-    }
-
-    
-    @Column(name="sign_number")
-    public String getSignNumber() {
-        return this.signNumber;
-    }
-    
-    public void setSignNumber(String signNumber) {
-        this.signNumber = signNumber;
-    }
-
-    
-    @Column(name="register_num")
-    public String getRegisterNum() {
-        return this.registerNum;
-    }
-    
-    public void setRegisterNum(String registerNum) {
-        this.registerNum = registerNum;
-    }
-
-    
     @Column(name="yy_result")
     public String getYyResult() {
         return this.yyResult;
@@ -169,13 +181,13 @@ public class ReservationRegistration  implements java.io.Serializable {
     }
 
     
-    @Column(name="token")
-    public String getToken() {
-        return this.token;
+    @Column(name="size", length=16)
+    public String getSize() {
+        return this.size;
     }
     
-    public void setToken(String token) {
-        this.token = token;
+    public void setSize(String size) {
+        this.size = size;
     }
 
 

@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-13 14:18:27 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-20 11:22:30 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -23,35 +23,35 @@ public class ShoesItem  implements java.io.Serializable {
 
 
      private Long id;
+     private String brand;
      private Date createTime;
      private String image;
      private Byte isSize;
+     private String itemId;
      private String model;
      private String name;
      private String registerNum;
      private String shoeSize;
      private String shop;
-     private Date updateTime;
-     private String itemId;
-     private String brand;
      private Byte status;
+     private Date updateTime;
 
     public ShoesItem() {
     }
 
-    public ShoesItem(Date createTime, String image, Byte isSize, String model, String name, String registerNum, String shoeSize, String shop, Date updateTime, String itemId, String brand, Byte status) {
+    public ShoesItem(String brand, Date createTime, String image, Byte isSize, String itemId, String model, String name, String registerNum, String shoeSize, String shop, Byte status, Date updateTime) {
+       this.brand = brand;
        this.createTime = createTime;
        this.image = image;
        this.isSize = isSize;
+       this.itemId = itemId;
        this.model = model;
        this.name = name;
        this.registerNum = registerNum;
        this.shoeSize = shoeSize;
        this.shop = shop;
-       this.updateTime = updateTime;
-       this.itemId = itemId;
-       this.brand = brand;
        this.status = status;
+       this.updateTime = updateTime;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -64,6 +64,16 @@ public class ShoesItem  implements java.io.Serializable {
     
     public void setId(Long id) {
         this.id = id;
+    }
+
+    
+    @Column(name="brand", length=20)
+    public String getBrand() {
+        return this.brand;
+    }
+    
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -94,6 +104,16 @@ public class ShoesItem  implements java.io.Serializable {
     
     public void setIsSize(Byte isSize) {
         this.isSize = isSize;
+    }
+
+    
+    @Column(name="item_id", length=20)
+    public String getItemId() {
+        return this.itemId;
+    }
+    
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     
@@ -146,36 +166,6 @@ public class ShoesItem  implements java.io.Serializable {
         this.shop = shop;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="update_time", length=19)
-    public Date getUpdateTime() {
-        return this.updateTime;
-    }
-    
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    
-    @Column(name="item_id", length=20)
-    public String getItemId() {
-        return this.itemId;
-    }
-    
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
-
-    
-    @Column(name="brand", length=20)
-    public String getBrand() {
-        return this.brand;
-    }
-    
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     
     @Column(name="status")
     public Byte getStatus() {
@@ -184,6 +174,16 @@ public class ShoesItem  implements java.io.Serializable {
     
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="update_time", length=19)
+    public Date getUpdateTime() {
+        return this.updateTime;
+    }
+    
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
 
