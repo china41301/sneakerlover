@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiParam;
  * @date 2019-07-18
  */
 public class RegisterShoesRequest {
-    private Long shoesItemId;
+    private String shoesItemId;
     private String shoesSize;
     private int reservationNumber;
     private int activityShopId;
@@ -25,11 +25,11 @@ public class RegisterShoesRequest {
         this.shoesSize = shoesSize;
     }
 
-    public Long getShoesItemId() {
+    public String getShoesItemId() {
         return shoesItemId;
     }
 
-    public void setShoesItemId(Long shoesItemId) {
+    public void setShoesItemId(String shoesItemId) {
         this.shoesItemId = shoesItemId;
     }
 

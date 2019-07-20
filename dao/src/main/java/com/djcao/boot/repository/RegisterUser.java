@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-20 11:22:30 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-20 17:39:34 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;

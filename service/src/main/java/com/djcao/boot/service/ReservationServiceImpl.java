@@ -17,6 +17,7 @@ import com.djcao.boot.dto.YYSignResponse;
 import com.djcao.boot.repository.*;
 import com.djcao.boot.vo.ReservationRegistrationVO;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -32,14 +33,12 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private ReservationRegistrationRepository reservationRegistrationRepository;
-
-    @Autowired
-    private RegisterUserService registerUserService;
 
     @Autowired
     RestTemplate restTemplate;
@@ -138,45 +137,27 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public PackageResult<List<ReservationRegistration>> findByUserId(BaseSo so,User user) {
-        Specification<ReservationRegistration> specification = new Specification<ReservationRegistration>() {
-            @Nullable
-            @Override
-            public Predicate toPredicate(Root<ReservationRegistration> root, CriteriaQuery<?> query,
-                                         CriteriaBuilder cb) {
-                List<Predicate> list = new ArrayList<Predicate>();
-
-                list.add(cb.equal(root.get("userId").as(Long.class), user.getId()));
-                query.groupBy(root.get("itemId"));
-                return cb.and(list.toArray(new Predicate[list.size()]));
-            }
-        };
         Pageable pageable = PageRequest.of(so.getPageNum(), so.getPageSize(),
             Direction.DESC, "createTime");
-        Page all = reservationRegistrationRepository.findAll(specification,pageable);
-        return new PackageResult<List<ReservationRegistration>>().setPage(all);
+        Page all = reservationRegistrationRepository.findByUserId(user.getId(),pageable);
+        PackageResult packageResult = new PackageResult<>().setPage(all);
+        List<ReservationRegistrationVO> rlt = ((List<ReservationRegistration>)packageResult.getResult()).stream()
+            .map(reservationRegistration -> {
+                ReservationRegistrationVO reservationRegistrationVO = new ReservationRegistrationVO();
+                BeanUtils.copyProperties(reservationRegistration, reservationRegistrationVO);
+                ShoesItem oneByItemId = shoesItemRepository.findOneByItemId(reservationRegistration.getItemId());
+                reservationRegistrationVO.setShoesItem(oneByItemId);
+                return reservationRegistrationVO;
+            }).collect(Collectors.toList());
+        packageResult.setResult(rlt);
+        return packageResult;
     }
 
     @Override
-    public PackageResult<ReservationRegistration> getReservationItem(Long itemId, User user,BaseSo so) {
-        Specification<ReservationRegistration> specification = new Specification<ReservationRegistration>() {
-            @Nullable
-            @Override
-            public Predicate toPredicate(Root<ReservationRegistration> root, CriteriaQuery<?> query,
-                                         CriteriaBuilder cb) {
-                List<Predicate> list = new ArrayList<Predicate>();
-
-                if (null != itemId) {
-                    list.add(cb.equal(root.get("itemId").as(Long.class), itemId));
-                }
-                if (null != user.getId()){
-                    list.add(cb.equal(root.get("userId").as(Long.class), user.getId()));
-                }
-                return cb.and(list.toArray(new Predicate[list.size()]));
-            }
-        };
+    public PackageResult<ReservationRegistration> getReservationItem(String itemId, User user,BaseSo so) {
         Pageable pageable = PageRequest.of(so.getPageNum(), so.getPageSize(),
             Direction.DESC, "createTime");
-        Page all = reservationRegistrationRepository.findAll(specification,pageable);
+        Page all = reservationRegistrationRepository.findByUserIdAndItemId(user.getId(),itemId,pageable);
         return new PackageResult<ReservationRegistration>().setPage(all);
     }
 }

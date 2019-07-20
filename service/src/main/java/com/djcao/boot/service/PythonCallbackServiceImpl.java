@@ -9,10 +9,13 @@ import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSONObject;
 
+import com.djcao.boot.common.BusinessStatus;
+import com.djcao.boot.common.BusinessStatus.ShoesStatusEnum;
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.common.PythonResult;
 import com.djcao.boot.repository.ReservationRegistration;
 import com.djcao.boot.repository.ReservationRegistrationRepository;
+import com.djcao.boot.repository.ShoesItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +47,9 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
 
     @Autowired
     private YYService yyService;
+
+    @Autowired
+    private ShoesItemRepository shoesItemRepository;
 
     @Override
     public Boolean shoesOffLoadingV1(List<String> itemIdList) {
@@ -89,4 +95,12 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
         logger.info("itemIdList : {}, result : {}",itemListId.toString(), JSONObject.toJSON(byItemId));
         return Boolean.TRUE;
     }
+
+    @Override
+    public Boolean shoesOffLoadingV3(List<String> itemListId) {
+        int i = shoesItemRepository.updateStatusByItemIdList(itemListId, ShoesStatusEnum.OVER_RESERVATION.getStatus());
+        logger.info("itemIdList : {}, result size: {}",itemListId.toString(), i);
+        return Boolean.TRUE;
+    }
+
 }

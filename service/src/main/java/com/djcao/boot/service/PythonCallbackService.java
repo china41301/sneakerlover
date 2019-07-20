@@ -12,4 +12,6 @@ public interface PythonCallbackService {
     Boolean shoesOffLoadingV1(List<String> itemListId);
 
     Boolean shoesOffLoadingV2(List<String> itemListId);
+
+    Boolean shoesOffLoadingV3(List<String> itemListId);
 }

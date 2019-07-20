@@ -1,18 +1,13 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-20 11:22:30 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-20 17:39:34 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,7 +24,7 @@ public class ReservationRegistration  implements java.io.Serializable {
 
      private Long id;
      private Date createTime;
-     private Long itemId;
+     private String itemId;
      private String registerNum;
      private long registerUserId;
      private String signNumber;
@@ -40,9 +35,6 @@ public class ReservationRegistration  implements java.io.Serializable {
      private Long userId;
      private String yyResult;
      private String size;
-     @JoinColumn(name = "itemId",referencedColumnName = "itemId")
-     @OneToOne(cascade = CascadeType.ALL)
-     private ShoesItem shoesItem;
 
     public ReservationRegistration() {
     }
@@ -51,7 +43,7 @@ public class ReservationRegistration  implements java.io.Serializable {
     public ReservationRegistration(long registerUserId) {
         this.registerUserId = registerUserId;
     }
-    public ReservationRegistration(Date createTime, Long itemId, String registerNum, long registerUserId, String signNumber, Integer status, String token, Date triggerTime, Date updateTime, Long userId, String yyResult, String size) {
+    public ReservationRegistration(Date createTime, String itemId, String registerNum, long registerUserId, String signNumber, Integer status, String token, Date triggerTime, Date updateTime, Long userId, String yyResult, String size) {
        this.createTime = createTime;
        this.itemId = itemId;
        this.registerNum = registerNum;
@@ -89,12 +81,12 @@ public class ReservationRegistration  implements java.io.Serializable {
     }
 
     
-    @Column(name="item_id")
-    public Long getItemId() {
+    @Column(name="item_id", length=20)
+    public String getItemId() {
         return this.itemId;
     }
     
-    public void setItemId(Long itemId) {
+    public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 
@@ -198,13 +190,9 @@ public class ReservationRegistration  implements java.io.Serializable {
         this.size = size;
     }
 
-    public ShoesItem getShoesItem() {
-        return shoesItem;
-    }
 
-    public void setShoesItem(ShoesItem shoesItem) {
-        this.shoesItem = shoesItem;
-    }
+
+
 }
 
 

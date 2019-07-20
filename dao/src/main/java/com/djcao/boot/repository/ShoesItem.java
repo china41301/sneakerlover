@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-20 11:22:30 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-20 17:39:34 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -35,11 +35,12 @@ public class ShoesItem  implements java.io.Serializable {
      private String shop;
      private Byte status;
      private Date updateTime;
+     private String city;
 
     public ShoesItem() {
     }
 
-    public ShoesItem(String brand, Date createTime, String image, Byte isSize, String itemId, String model, String name, String registerNum, String shoeSize, String shop, Byte status, Date updateTime) {
+    public ShoesItem(String brand, Date createTime, String image, Byte isSize, String itemId, String model, String name, String registerNum, String shoeSize, String shop, Byte status, Date updateTime, String city) {
        this.brand = brand;
        this.createTime = createTime;
        this.image = image;
@@ -52,6 +53,7 @@ public class ShoesItem  implements java.io.Serializable {
        this.shop = shop;
        this.status = status;
        this.updateTime = updateTime;
+       this.city = city;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -184,6 +186,16 @@ public class ShoesItem  implements java.io.Serializable {
     
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    
+    @Column(name="city", length=40)
+    public String getCity() {
+        return this.city;
+    }
+    
+    public void setCity(String city) {
+        this.city = city;
     }
 
 
