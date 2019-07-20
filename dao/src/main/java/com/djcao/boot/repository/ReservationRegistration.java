@@ -3,11 +3,16 @@ package com.djcao.boot.repository;
 
 
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,6 +40,9 @@ public class ReservationRegistration  implements java.io.Serializable {
      private Long userId;
      private String yyResult;
      private String size;
+     @JoinColumn(name = "itemId",referencedColumnName = "itemId")
+     @OneToOne(cascade = CascadeType.ALL)
+     private ShoesItem shoesItem;
 
     public ReservationRegistration() {
     }
@@ -190,9 +198,13 @@ public class ReservationRegistration  implements java.io.Serializable {
         this.size = size;
     }
 
+    public ShoesItem getShoesItem() {
+        return shoesItem;
+    }
 
-
-
+    public void setShoesItem(ShoesItem shoesItem) {
+        this.shoesItem = shoesItem;
+    }
 }
 
 

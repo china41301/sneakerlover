@@ -45,7 +45,7 @@ public class ReservationController {
 
     @ApiOperation(value = "球鞋中签详情")
     @PostMapping("get/{itemId}")
-    public PackageResult<ReservationRegistrationVO> getSignItem(@PathVariable(name = "itemId") @ApiParam("球鞋id") Long itemId,@RequestBody BaseSo so, HttpServletRequest request){
+    public PackageResult<ReservationRegistration> getSignItem(@PathVariable(name = "itemId") @ApiParam("球鞋id") Long itemId,@RequestBody BaseSo so, HttpServletRequest request){
         return reservationService.getReservationItem(itemId,(User) request.getSession().getAttribute(CURRENT_USER),so);
     }
 }

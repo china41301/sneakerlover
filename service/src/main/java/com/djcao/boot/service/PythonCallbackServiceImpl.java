@@ -4,7 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import com.alibaba.fastjson.JSONObject;
 
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.common.PythonResult;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import static com.djcao.boot.common.BusinessStatus.ShoesStatusEnum.OVER_RESERVATION;
 import static com.djcao.boot.common.CodeDef.BE_THE_LUCKY_NUMBER;
 import static com.djcao.boot.common.CodeDef.BE_THE_UNLUCKY_NUMBER;
 import static com.djcao.boot.common.CodeDef.YY_LUCKY_NUMBER;
@@ -76,6 +80,13 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
 
     @Override
     public Boolean shoesOffLoadingV2(List<String> itemListId) {
-        return null;
+        List<Long> collect = itemListId.stream().map(Long::valueOf).collect(Collectors.toList());
+        List<ReservationRegistration> byItemId = reservationRegistrationRepository.findByItemId(collect);
+        byItemId.forEach(reservationRegistration -> {
+            reservationRegistration.setUpdateTime(new Date());
+            reservationRegistration.setStatus(OVER_RESERVATION.getStatus());});
+        reservationRegistrationRepository.saveAll(byItemId);
+        logger.info("itemIdList : {}, result : {}",itemListId.toString(), JSONObject.toJSON(byItemId));
+        return Boolean.TRUE;
     }
 }

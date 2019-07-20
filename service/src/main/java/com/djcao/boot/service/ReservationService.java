@@ -17,6 +17,6 @@ public interface ReservationService {
 
     PackageResult<List<ReservationRegistration>> findByUserId(BaseSo so,User user);
 
-    PackageResult<ReservationRegistrationVO> getReservationItem(Long itemId,User user,BaseSo so);
+    PackageResult<ReservationRegistration> getReservationItem(Long itemId,User user,BaseSo so);
 
 }

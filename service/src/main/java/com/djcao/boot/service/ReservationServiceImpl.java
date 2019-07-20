@@ -157,7 +157,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public PackageResult<ReservationRegistrationVO> getReservationItem(Long itemId, User user,BaseSo so) {
+    public PackageResult<ReservationRegistration> getReservationItem(Long itemId, User user,BaseSo so) {
         Specification<ReservationRegistration> specification = new Specification<ReservationRegistration>() {
             @Nullable
             @Override
@@ -177,10 +177,6 @@ public class ReservationServiceImpl implements ReservationService {
         Pageable pageable = PageRequest.of(so.getPageNum(), so.getPageSize(),
             Direction.DESC, "createTime");
         Page all = reservationRegistrationRepository.findAll(specification,pageable);
-        PackageResult<ReservationRegistrationVO> reservationRegistrationVOPackageResult
-            = new PackageResult<ReservationRegistrationVO>().setPage(all);
-        Optional<ShoesItem> byId = shoesItemRepository.findById(itemId);
-        reservationRegistrationVOPackageResult.getResult().setShoesItem(byId.get());
-        return reservationRegistrationVOPackageResult;
+        return new PackageResult<ReservationRegistration>().setPage(all);
     }
 }
