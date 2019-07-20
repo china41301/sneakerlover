@@ -35,9 +35,15 @@ public class ReservationController {
         return reservationService.registerShoes(registerShoesRequest,(User)request.getSession().getAttribute(CURRENT_USER));
     }
 
-    @ApiOperation(value = "登记查询接口")
+    @ApiOperation(value = "中签查询列表")
     @PostMapping("find/{userId}")
-    public PackageResult<List<ReservationRegistration>> findByUserId(@PathVariable(name = "useId") @ApiParam("登录用户的id") Long userId){
+    public PackageResult<List<ReservationRegistration>> findByUserId(@PathVariable(name = "userId") @ApiParam("登录用户的id") Long userId){
         return reservationService.findByUserId(userId);
+    }
+
+    @ApiOperation(value = "球鞋中签详情")
+    @PostMapping("get/{itemId}")
+    public PackageResult<List<ReservationRegistration>> getSignItem(@PathVariable(name = "itemId") @ApiParam("球鞋id") Long itemId){
+        return reservationService.findByUserId(itemId);
     }
 }
