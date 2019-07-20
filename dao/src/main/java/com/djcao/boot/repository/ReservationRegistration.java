@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-20 17:39:34 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-20 19:50:45 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -26,7 +26,7 @@ public class ReservationRegistration  implements java.io.Serializable {
      private Date createTime;
      private String itemId;
      private String registerNum;
-     private long registerUserId;
+     private Long registerUserId;
      private String signNumber;
      private Integer status;
      private String token;
@@ -34,16 +34,14 @@ public class ReservationRegistration  implements java.io.Serializable {
      private Date updateTime;
      private Long userId;
      private String yyResult;
-     private String size;
+     private String shoesSize;
+     private Integer shoesShop;
+     private String shoesShopName;
 
     public ReservationRegistration() {
     }
 
-	
-    public ReservationRegistration(long registerUserId) {
-        this.registerUserId = registerUserId;
-    }
-    public ReservationRegistration(Date createTime, String itemId, String registerNum, long registerUserId, String signNumber, Integer status, String token, Date triggerTime, Date updateTime, Long userId, String yyResult, String size) {
+    public ReservationRegistration(Date createTime, String itemId, String registerNum, Long registerUserId, String signNumber, Integer status, String token, Date triggerTime, Date updateTime, Long userId, String yyResult, String shoesSize, Integer shoesShop, String shoesShopName) {
        this.createTime = createTime;
        this.itemId = itemId;
        this.registerNum = registerNum;
@@ -55,7 +53,9 @@ public class ReservationRegistration  implements java.io.Serializable {
        this.updateTime = updateTime;
        this.userId = userId;
        this.yyResult = yyResult;
-       this.size = size;
+       this.shoesSize = shoesSize;
+       this.shoesShop = shoesShop;
+       this.shoesShopName = shoesShopName;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -81,7 +81,7 @@ public class ReservationRegistration  implements java.io.Serializable {
     }
 
     
-    @Column(name="item_id", length=20)
+    @Column(name="item_id", length=40)
     public String getItemId() {
         return this.itemId;
     }
@@ -101,12 +101,12 @@ public class ReservationRegistration  implements java.io.Serializable {
     }
 
     
-    @Column(name="register_user_id", nullable=false)
-    public long getRegisterUserId() {
+    @Column(name="register_user_id")
+    public Long getRegisterUserId() {
         return this.registerUserId;
     }
     
-    public void setRegisterUserId(long registerUserId) {
+    public void setRegisterUserId(Long registerUserId) {
         this.registerUserId = registerUserId;
     }
 
@@ -181,13 +181,33 @@ public class ReservationRegistration  implements java.io.Serializable {
     }
 
     
-    @Column(name="size", length=16)
-    public String getSize() {
-        return this.size;
+    @Column(name="shoes_size", length=20)
+    public String getShoesSize() {
+        return this.shoesSize;
     }
     
-    public void setSize(String size) {
-        this.size = size;
+    public void setShoesSize(String shoesSize) {
+        this.shoesSize = shoesSize;
+    }
+
+    
+    @Column(name="shoes_shop")
+    public Integer getShoesShop() {
+        return this.shoesShop;
+    }
+    
+    public void setShoesShop(Integer shoesShop) {
+        this.shoesShop = shoesShop;
+    }
+
+    
+    @Column(name="shoes_shop_name")
+    public String getShoesShopName() {
+        return this.shoesShopName;
+    }
+    
+    public void setShoesShopName(String shoesShopName) {
+        this.shoesShopName = shoesShopName;
     }
 
 

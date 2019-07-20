@@ -95,7 +95,9 @@ public class ReservationServiceImpl implements ReservationService {
                 reservationRegistration.setUserId(user.getId());
                 reservationRegistration.setStatus(BusinessStatus.ReservationStatusEnum.RESERVATION_FAIL.getStatus());
                 reservationRegistration.setToken(registerUser.getToken());
-                reservationRegistration.setSize(registerShoesRequest.getShoesSize());
+                reservationRegistration.setShoesSize(registerShoesRequest.getShoesSize());
+                reservationRegistration.setShoesShopName(registerShoesRequest.getShopName());
+                reservationRegistration.setShoesShop(registerShoesRequest.getActivityShopId());
                 reservationMap.put(registerUser.getToken(),reservationRegistration);
             }
             //解析预约登记响应体，并将返回的账户设置为登记成功，并设置抽签码
@@ -156,18 +158,27 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public PackageResult<ReservationRegistration> getReservationItem(String itemId, User user,BaseSo so) {
+    public PackageResult<List<ReservationRegistrationVO>> getReservationItem(String itemId, User user,BaseSo so) {
         Pageable pageable = PageRequest.of(so.getPageNum(), so.getPageSize(),
             Direction.DESC, "createTime");
         Page all = reservationRegistrationRepository.findByUserIdAndItemId(user.getId(),itemId,pageable);
-        Integer signSuccessNumberByUserIdAndItemId = reservationRegistrationRepository.countSignSuccessNumberByUserIdAndItemId(user.getId(),
-            itemId, GOT_THEM.getStatus());
         PackageResult reservationRegistrationPackageResult
             = new PackageResult().setPage(all);
-        ReservationRegistrationVO reservationRegistrationVO = new ReservationRegistrationVO();
-        BeanUtils.copyProperties(reservationRegistrationPackageResult.getResult(),reservationRegistrationVO);
-        reservationRegistrationVO.setSignSuccessNumber(signSuccessNumberByUserIdAndItemId);
-        reservationRegistrationPackageResult.setResult(reservationRegistrationVO);
+        List<ReservationRegistrationVO> rlt = ((List<ReservationRegistration>)reservationRegistrationPackageResult
+            .getResult()).stream().map(reservationRegistration -> {
+            ReservationRegistrationVO reservationRegistrationVO = new ReservationRegistrationVO();
+            BeanUtils.copyProperties(reservationRegistrationPackageResult.getResult(), reservationRegistrationVO);
+            Integer signSuccessNumberByUserIdAndItemId = reservationRegistrationRepository
+                .countSignSuccessNumberByUserIdAndItemId(user.getId(),
+                    itemId, GOT_THEM.getStatus());
+            reservationRegistrationVO.setSignSuccessNumber(signSuccessNumberByUserIdAndItemId);
+            ShoesItem oneByItemId = shoesItemRepository.findOneByItemId(itemId);
+            reservationRegistrationVO.setShoesItem(oneByItemId);
+            Optional<RegisterUser> byId = registerUserRepository.findById(reservationRegistration.getId());
+            reservationRegistrationVO.setRegisterUserName(byId.get().getUserName());
+            return reservationRegistrationVO;
+        }).collect(Collectors.toList());
+        reservationRegistrationPackageResult.setResult(rlt);
         return reservationRegistrationPackageResult;
     }
 }

@@ -45,7 +45,7 @@ public class ReservationController {
 
     @ApiOperation(value = "球鞋中签详情")
     @PostMapping("get/{itemId}")
-    public PackageResult<ReservationRegistration> getSignItem(@PathVariable(name = "itemId") @ApiParam("球鞋的itemId,非主键是就叫itemId") String itemId,@RequestBody BaseSo so, HttpServletRequest request){
+    public PackageResult<List<ReservationRegistrationVO>> getSignItem(@PathVariable(name = "itemId") @ApiParam("球鞋的itemId,非主键是就叫itemId") String itemId,@RequestBody BaseSo so, HttpServletRequest request){
         return reservationService.getReservationItem(itemId,(User) request.getSession().getAttribute(CURRENT_USER),so);
     }
 }
