@@ -20,6 +20,7 @@ public class ReservationRegistrationVO implements java.io.Serializable {
      private String yyResult;
      private String size;
      private ShoesItem shoesItem;
+     private int signSuccessNumber;
 
     public ReservationRegistrationVO() {
     }
@@ -126,6 +127,14 @@ public class ReservationRegistrationVO implements java.io.Serializable {
 
     public void setShoesItem(ShoesItem shoesItem) {
         this.shoesItem = shoesItem;
+    }
+
+    public int getSignSuccessNumber() {
+        return signSuccessNumber;
+    }
+
+    public void setSignSuccessNumber(int signSuccessNumber) {
+        this.signSuccessNumber = signSuccessNumber;
     }
 }
 

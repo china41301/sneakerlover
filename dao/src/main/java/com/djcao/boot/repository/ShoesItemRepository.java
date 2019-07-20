@@ -21,4 +21,7 @@ public interface ShoesItemRepository extends JpaRepository<ShoesItem,Long> {
     @Modifying
     @Query(value = "update ShoesItem set status = :status where itemId in :itemIdList")
     int updateStatusByItemIdList(@Param("itemIdList")List<String> itemIdList, @Param("status")Integer status);
+
+    @Query(value = "select t from ShoesItem t where t.status = :status")
+    Page<ShoesItem> findByStatus(@Param("status") Integer status,Pageable pageable);
 }

@@ -2,6 +2,7 @@ package com.djcao.boot.repository;
 
 import java.util.List;
 
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +26,7 @@ public interface ReservationRegistrationRepository extends JpaRepository<Reserva
 
     @Query(value = "select t from ReservationRegistration t where t.userId = :userId and t.itemId = :itemId")
     Page<ReservationRegistration> findByUserIdAndItemId(@Param("userId")Long userId,@Param("itemId")String itemId,Pageable pageable);
+
+    @Query(value = "select count(t.id) from ReservationRegistration t where t.userId = :userId and t.itemId = :itemId and t.status = :status")
+    Integer countSignSuccessNumberByUserIdAndItemId(@Param("userId")Long userId,@Param("itemId")String itemId,@Param("status")Integer status);
 }

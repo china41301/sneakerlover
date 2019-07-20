@@ -35,6 +35,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.GOT_THEM;
+
 @Service
 public class ReservationServiceImpl implements ReservationService {
     @Autowired
@@ -158,6 +160,14 @@ public class ReservationServiceImpl implements ReservationService {
         Pageable pageable = PageRequest.of(so.getPageNum(), so.getPageSize(),
             Direction.DESC, "createTime");
         Page all = reservationRegistrationRepository.findByUserIdAndItemId(user.getId(),itemId,pageable);
-        return new PackageResult<ReservationRegistration>().setPage(all);
+        Integer signSuccessNumberByUserIdAndItemId = reservationRegistrationRepository.countSignSuccessNumberByUserIdAndItemId(user.getId(),
+            itemId, GOT_THEM.getStatus());
+        PackageResult reservationRegistrationPackageResult
+            = new PackageResult().setPage(all);
+        ReservationRegistrationVO reservationRegistrationVO = new ReservationRegistrationVO();
+        BeanUtils.copyProperties(reservationRegistrationPackageResult.getResult(),reservationRegistrationVO);
+        reservationRegistrationVO.setSignSuccessNumber(signSuccessNumberByUserIdAndItemId);
+        reservationRegistrationPackageResult.setResult(reservationRegistrationVO);
+        return reservationRegistrationPackageResult;
     }
 }
