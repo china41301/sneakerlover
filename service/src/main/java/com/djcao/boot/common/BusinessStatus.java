@@ -9,7 +9,10 @@ public interface BusinessStatus {
         RESERVATION_SUCCESS(1,"调用东哥登记成功"),
         RESERVATION_FAIL(2,"调用东哥登记失败"),
         GOT_THEM(3,"抽中鞋子"),
-        LOSS_THEM(4,"没有抽中");
+        LOSS_THEM(4,"没有抽中"),
+
+
+        ;
 
         int status;
         String message;

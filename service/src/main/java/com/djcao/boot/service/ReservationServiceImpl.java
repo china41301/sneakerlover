@@ -20,10 +20,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,20 +44,27 @@ public class ReservationServiceImpl implements ReservationService {
     @Value(value = "${python.host}")
     private String pythonHost;
 
+    @Autowired
+    private RegisterUserRepository registerUserRepository;
+
     @Override
     @SuppressWarnings("unchecked")
-    public PackageResult<String> registerShoes(RegisterShoesRequest registerShoesRequest) throws Exception {
-        /*List<YYSignRequest> reqsList = new ArrayList<>();
+    public PackageResult<String> registerShoes(RegisterShoesRequest registerShoesRequest,User user) throws Exception {
+        List<YYSignRequest> reqsList = new ArrayList<>();
         List<RegisterUser> registerUsers;
         Map<String,ReservationRegistration> reservationMap =  new HashMap<>();
         List<ReservationRegistration> reservationList = new ArrayList<>();
-        if(null == accountIds || accountIds.isEmpty()) {
-            throw new Exception("请选择登记账号！");
+        if(0 == registerShoesRequest.getReservationNumber()) {
+            throw new Exception("请选择登记用户！");
         }
-        registerUsers = registerUserService.findByUserIds(accountIds).getResult();
-        registerUsers.forEach(registerUser -> reqsList.add(new YYSignRequest().setItemId(shoesItemId)
-                                                                                .setShoesSize(shoesSize)
-                                                                                .setShopId(shopId)
+        registerUsers = registerUserRepository.findNotReservationByUserId(user.getId(),registerShoesRequest.getShoesItemId(),registerShoesRequest.getReservationNumber());
+        if (CollectionUtils.isEmpty(registerUsers) || registerUsers.size() != registerShoesRequest.getReservationNumber()){
+            return PackageResult.error(String.format("抢鞋用户数量小于%d,当前剩余可用于抢此鞋用户数量为：%d",
+                registerShoesRequest.getReservationNumber(), registerUsers.size()));
+        }
+        registerUsers.forEach(registerUser -> reqsList.add(new YYSignRequest().setItemId(String.valueOf(registerShoesRequest.getShoesItemId()))
+                                                                                .setShoesSize(registerShoesRequest.getShoesSize())
+                                                                                .setShopId(String.valueOf(registerShoesRequest.getActivityShopId()))
                                                                                 .setToken(registerUser.getToken())));
         JSONObject json = new JSONObject();
         json.put("data", reqsList);
@@ -71,11 +80,15 @@ public class ReservationServiceImpl implements ReservationService {
             //先生成所有提交了登记信息的记录，状态都为预约登记失败
             for(RegisterUser registerUser : registerUsers) {
                 ReservationRegistration reservationRegistration = new ReservationRegistration();
-                reservationRegistration.setItemId(new Long(shoesItemId));
+                reservationRegistration.setItemId(registerShoesRequest.getShoesItemId());
+                reservationRegistration.setUpdateTime(new Date());
+                reservationRegistration.setCreateTime(new Date());
                 reservationRegistration.setRegisterUserId(registerUser.getId());
-                reservationRegistration.setUserId(registerUser.getUserId());
+                reservationRegistration.setRegisterUserId(registerUser.getUserId());
+                reservationRegistration.setUserId(user.getId());
                 reservationRegistration.setStatus(BusinessStatus.ReservationStatusEnum.RESERVATION_FAIL.getStatus());
                 reservationRegistration.setToken(registerUser.getToken());
+                reservationRegistration.setSize(registerShoesRequest.getShoesSize());
                 reservationMap.put(registerUser.getToken(),reservationRegistration);
             }
             //解析预约登记响应体，并将返回的账户设置为登记成功，并设置抽签码
@@ -91,7 +104,7 @@ public class ReservationServiceImpl implements ReservationService {
             }
             List<ReservationRegistration> result = reservationRegistrationRepository.saveAll(reservationList);
             return PackageResult.success().setResult(result);
-        }*/
+        }
         return PackageResult.error("和东哥的预约登记接口交互成功，但是执行错误");
     }
 

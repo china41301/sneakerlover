@@ -2,6 +2,8 @@ package com.djcao.boot.service;
 
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.repository.ShoesItem;
+import com.djcao.boot.repository.User;
+import com.djcao.boot.vo.ShoesItemVO;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ public interface ShoesItemService {
      * @param id
      * @return
      */
-    PackageResult<ShoesItem> getShoesItemById(Long id) throws Exception;
+    PackageResult<ShoesItemVO> getShoesItemById(Long id, User user) throws Exception;
 
     /**
      * 获取所有鞋子的列表
