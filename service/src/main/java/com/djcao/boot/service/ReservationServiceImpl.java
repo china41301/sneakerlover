@@ -167,7 +167,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<ReservationRegistrationVO> rlt = ((List<ReservationRegistration>)reservationRegistrationPackageResult
             .getResult()).stream().map(reservationRegistration -> {
             ReservationRegistrationVO reservationRegistrationVO = new ReservationRegistrationVO();
-            BeanUtils.copyProperties(reservationRegistrationPackageResult.getResult(), reservationRegistrationVO);
+            BeanUtils.copyProperties(reservationRegistration, reservationRegistrationVO);
             Integer signSuccessNumberByUserIdAndItemId = reservationRegistrationRepository
                 .countSignSuccessNumberByUserIdAndItemId(user.getId(),
                     itemId, GOT_THEM.getStatus());
