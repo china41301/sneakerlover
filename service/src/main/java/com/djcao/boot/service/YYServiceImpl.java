@@ -60,7 +60,7 @@ public class YYServiceImpl implements YYService{
         return result;
     }
 
-    @Override
+    /*@Override
     public Boolean offShelf(List<String> itemIdList) {
         for (String itemId : itemIdList){
             try {
@@ -91,7 +91,7 @@ public class YYServiceImpl implements YYService{
         }
         //success;
         return Boolean.TRUE;
-    }
+    }*/
 
 
     @Override

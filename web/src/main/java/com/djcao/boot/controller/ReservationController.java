@@ -26,7 +26,7 @@ public class ReservationController {
     @PostMapping("register")
     @ResponseBody
     public PackageResult<String> registerShoes(@RequestBody RegisterShoesRequest registerShoesRequest) throws Exception {
-        return reservationService.registerShoes(registerShoesRequest.getShoesItemId(), registerShoesRequest.getShoesSize(), registerShoesRequest.getShoesItemId(), registerShoesRequest.getAccountIds());
+        return reservationService.registerShoes(registerShoesRequest);
     }
 
     @ApiOperation(value = "登记查询接口")

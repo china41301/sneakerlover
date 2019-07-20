@@ -1,5 +1,7 @@
 package com.djcao.boot.service;
 
+import java.util.List;
+
 /**
  * @author djcao
  * @workcode wb-cdj390654
@@ -7,6 +9,7 @@ package com.djcao.boot.service;
  */
 public interface PythonCallbackService {
 
-    Boolean shoesOffLoading(String itemId);
+    Boolean shoesOffLoadingV1(List<String> itemListId);
 
+    Boolean shoesOffLoadingV2(List<String> itemListId);
 }

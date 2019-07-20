@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.djcao.boot.common.BusinessStatus;
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.common.PythonResult;
+import com.djcao.boot.dto.RegisterShoesRequest;
 import com.djcao.boot.dto.YYSignRequest;
 import com.djcao.boot.dto.YYSignResponse;
 import com.djcao.boot.repository.*;
@@ -43,8 +44,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public PackageResult<String> registerShoes(String shoesItemId, String shoesSize, String shopId, List<Long> accountIds) throws Exception {
-        List<YYSignRequest> reqsList = new ArrayList<>();
+    public PackageResult<String> registerShoes(RegisterShoesRequest registerShoesRequest) throws Exception {
+        /*List<YYSignRequest> reqsList = new ArrayList<>();
         List<RegisterUser> registerUsers;
         Map<String,ReservationRegistration> reservationMap =  new HashMap<>();
         List<ReservationRegistration> reservationList = new ArrayList<>();
@@ -90,7 +91,7 @@ public class ReservationServiceImpl implements ReservationService {
             }
             List<ReservationRegistration> result = reservationRegistrationRepository.saveAll(reservationList);
             return PackageResult.success().setResult(result);
-        }
+        }*/
         return PackageResult.error("和东哥的预约登记接口交互成功，但是执行错误");
     }
 
