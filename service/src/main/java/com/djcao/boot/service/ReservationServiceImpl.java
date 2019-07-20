@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -137,11 +138,11 @@ public class ReservationServiceImpl implements ReservationService {
                                          CriteriaBuilder cb) {
                 List<Predicate> list = new ArrayList<Predicate>();
 
-                list.add(cb.equal(root.get("user_id").as(Long.class), userId));
+                list.add(cb.equal(root.get("userId").as(Long.class), userId));
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }
         };
-        List<ReservationRegistration> all = reservationRegistrationRepository.findAll(specification,Sort.by("create_time","desc"));
+        List<ReservationRegistration> all = reservationRegistrationRepository.findAll(specification,new Sort(Direction.DESC,"createTime"));
         return PackageResult.success(all);
     }
 }
