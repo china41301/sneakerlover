@@ -16,7 +16,7 @@ public class ShoesItemController {
     @Resource
     private ShoesItemService shoesItemService;
 
-    @ApiOperation(value = "获取所有鞋子的列表")
+    @ApiOperation(value = "获取鞋子的详细信息")
     @GetMapping("detail/{id}")
     @ResponseBody
     public PackageResult<ShoesItem> getShoesItemDetail(@PathVariable(name = "id") Long id) throws Exception {

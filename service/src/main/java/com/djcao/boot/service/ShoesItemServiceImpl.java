@@ -20,7 +20,7 @@ public class ShoesItemServiceImpl implements ShoesItemService{
     @Override
     @SuppressWarnings("unchecked")
     public PackageResult<ShoesItem> getShoesItemById(Long id) throws Exception {
-        return PackageResult.success().setResult(shoesItemRepository.findById(1L).orElseThrow( () ->  new Exception("未找到球鞋信息")));
+        return PackageResult.success().setResult(shoesItemRepository.findById(id).orElseThrow( () ->  new Exception("未找到球鞋信息")));
     }
 
     @Override
