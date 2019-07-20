@@ -24,11 +24,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -69,7 +65,7 @@ public class ReservationServiceImpl implements ReservationService {
         JSONObject json = new JSONObject();
         json.put("data", reqsList);
         json.put("code", 10086);
-        PythonResult<List<YYSignResponse>> signResult;
+        PythonResult<List<Map<String, String>>> signResult;
         try {
             signResult = restTemplate.postForObject(pythonHost + "/yy/sign", json, PythonResult.class);
         } catch (RestClientException restClientException) {
@@ -92,12 +88,12 @@ public class ReservationServiceImpl implements ReservationService {
                 reservationMap.put(registerUser.getToken(),reservationRegistration);
             }
             //解析预约登记响应体，并将返回的账户设置为登记成功，并设置抽签码
-            List<YYSignResponse> responseList = signResult.getData();
-            for(YYSignResponse response : responseList) {
-                ReservationRegistration reservationRegistration = reservationMap.get(response.getToken());
+            List<Map<String, String>> responseList = signResult.getData();
+            for(Map<String, String> response : responseList) {
+                ReservationRegistration reservationRegistration = reservationMap.get(response.get("token"));
                 reservationRegistration.setStatus(BusinessStatus.ReservationStatusEnum.RESERVATION_SUCCESS.getStatus());
-                reservationRegistration.setSignNumber(response.getSign_id());
-                reservationMap.put(response.getToken(), reservationRegistration);
+                reservationRegistration.setSignNumber(response.get("sign_id"));
+                reservationMap.put(response.get("token"), reservationRegistration);
             }
             for (Map.Entry<String,ReservationRegistration> entry : reservationMap.entrySet()) {
                 reservationList.add(entry.getValue());
