@@ -6,6 +6,7 @@ import com.djcao.boot.dto.RegisterShoesRequest;
 import com.djcao.boot.repository.ReservationRegistration;
 import com.djcao.boot.repository.User;
 import com.djcao.boot.service.ReservationService;
+import com.djcao.boot.vo.ReservationRegistrationVO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
@@ -38,13 +39,13 @@ public class ReservationController {
 
     @ApiOperation(value = "中签查询列表")
     @PostMapping("find/{userId}")
-    public PackageResult<List<ReservationRegistration>> findByUserId(){
-        return reservationService.findByUserId(1L);
+    public PackageResult<List<ReservationRegistration>> findByUserId(@RequestBody BaseSo so,HttpServletRequest request){
+        return reservationService.findByUserId(so,(User)request.getSession().getAttribute(CURRENT_USER));
     }
 
     @ApiOperation(value = "球鞋中签详情")
     @PostMapping("get/{itemId}")
-    public PackageResult<List<ReservationRegistration>> getSignItem(@PathVariable(name = "itemId") @ApiParam("球鞋id") Long itemId){
-        return reservationService.findByUserId(itemId);
+    public PackageResult<ReservationRegistrationVO> getSignItem(@PathVariable(name = "itemId") @ApiParam("球鞋id") Long itemId,@RequestBody BaseSo so, HttpServletRequest request){
+        return reservationService.getReservationItem(itemId,(User) request.getSession().getAttribute(CURRENT_USER),so);
     }
 }

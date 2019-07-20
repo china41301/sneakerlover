@@ -6,6 +6,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.alibaba.fastjson.JSONObject;
+
+import com.djcao.boot.common.BaseSo;
 import com.djcao.boot.common.BusinessStatus;
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.common.PythonResult;
@@ -13,9 +15,13 @@ import com.djcao.boot.dto.RegisterShoesRequest;
 import com.djcao.boot.dto.YYSignRequest;
 import com.djcao.boot.dto.YYSignResponse;
 import com.djcao.boot.repository.*;
+import com.djcao.boot.vo.ReservationRegistrationVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
@@ -43,6 +49,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     private RegisterUserRepository registerUserRepository;
+
+    @Autowired
+    private ShoesItemRepository shoesItemRepository;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -128,9 +137,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public PackageResult<List<ReservationRegistration>> findByUserId(Long userId) {
-        if (userId == null)
-            return PackageResult.error("userId不能为空");
+    public PackageResult<List<ReservationRegistration>> findByUserId(BaseSo so,User user) {
         Specification<ReservationRegistration> specification = new Specification<ReservationRegistration>() {
             @Nullable
             @Override
@@ -138,11 +145,42 @@ public class ReservationServiceImpl implements ReservationService {
                                          CriteriaBuilder cb) {
                 List<Predicate> list = new ArrayList<Predicate>();
 
-                list.add(cb.equal(root.get("userId").as(Long.class), userId));
+                list.add(cb.equal(root.get("userId").as(Long.class), user.getId()));
+                query.groupBy(root.get("itemId"));
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }
         };
-        List<ReservationRegistration> all = reservationRegistrationRepository.findAll(specification,new Sort(Direction.DESC,"createTime"));
-        return PackageResult.success(all);
+        Pageable pageable = PageRequest.of(so.getPageNum(), so.getPageSize(),
+            Direction.DESC, "createTime");
+        Page all = reservationRegistrationRepository.findAll(specification,pageable);
+        return new PackageResult<List<ReservationRegistration>>().setPage(all);
+    }
+
+    @Override
+    public PackageResult<ReservationRegistrationVO> getReservationItem(Long itemId, User user,BaseSo so) {
+        Specification<ReservationRegistration> specification = new Specification<ReservationRegistration>() {
+            @Nullable
+            @Override
+            public Predicate toPredicate(Root<ReservationRegistration> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder cb) {
+                List<Predicate> list = new ArrayList<Predicate>();
+
+                if (null != itemId) {
+                    list.add(cb.equal(root.get("itemId").as(Long.class), itemId));
+                }
+                if (null != user.getId()){
+                    list.add(cb.equal(root.get("userId").as(Long.class), user.getId()));
+                }
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }
+        };
+        Pageable pageable = PageRequest.of(so.getPageNum(), so.getPageSize(),
+            Direction.DESC, "createTime");
+        Page all = reservationRegistrationRepository.findAll(specification,pageable);
+        PackageResult<ReservationRegistrationVO> reservationRegistrationVOPackageResult
+            = new PackageResult<ReservationRegistrationVO>().setPage(all);
+        Optional<ShoesItem> byId = shoesItemRepository.findById(itemId);
+        reservationRegistrationVOPackageResult.getResult().setShoesItem(byId.get());
+        return reservationRegistrationVOPackageResult;
     }
 }

@@ -1,9 +1,12 @@
 package com.djcao.boot.service;
 
+import com.djcao.boot.common.BaseSo;
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.dto.RegisterShoesRequest;
 import com.djcao.boot.repository.ReservationRegistration;
 import com.djcao.boot.repository.User;
+import com.djcao.boot.vo.ReservationRegistrationVO;
+import com.fasterxml.jackson.databind.ser.Serializers.Base;
 
 import java.util.List;
 
@@ -12,6 +15,8 @@ public interface ReservationService {
 
     PackageResult<List<ReservationRegistration>> findByItemId(String itemId,Integer status);
 
-    PackageResult<List<ReservationRegistration>> findByUserId(Long userId);
+    PackageResult<List<ReservationRegistration>> findByUserId(BaseSo so,User user);
+
+    PackageResult<ReservationRegistrationVO> getReservationItem(Long itemId,User user,BaseSo so);
 
 }
