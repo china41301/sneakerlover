@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import com.alibaba.fastjson.JSON;
+
 import com.djcao.boot.repository.ShoesItem;
 import com.djcao.boot.repository.ShoesItemRepository;
 import com.djcao.boot.service.PythonCallbackServiceImpl;
@@ -54,6 +56,7 @@ public class JobService {
             PageRequest pageRequest = PageRequest.of(0, 20);
             while (hasNext){
                 Page<ShoesItem> byStatus = shoesItemRepository.findByStatus(OVER_RESERVATION.getStatus(), pageRequest);
+                logger.info("item off loading item : {}" , JSON.toJSONString(byStatus.getContent()));
                 List<ShoesItem> content = byStatus.getContent();
                 hasNext = content.size() > 0;
                 if (content.size() > 0){
