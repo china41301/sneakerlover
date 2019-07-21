@@ -45,7 +45,7 @@ public class JobService {
 
     @PostConstruct
     public void init(){
-        threadPoolExecutor.scheduleAtFixedRate(new QuerySignResult(),1,10, TimeUnit.MINUTES);
+        threadPoolExecutor.scheduleAtFixedRate(new QuerySignResult(),1,1, TimeUnit.MINUTES);
     }
 
     public class QuerySignResult implements Runnable{
