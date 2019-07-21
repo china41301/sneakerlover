@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
             dbUser.setUpdateTime(new Date());
             dbUser.setIsVip((byte)0);
             dbUser.setPasswd(password.replace(" ",""));
-            dbUser.setPhoneNum(Integer.valueOf(account));
+            dbUser.setPhoneNum(account);
             dbUser = userRepository.save(dbUser);
             return PackageResult.success(dbUser);
         }else {

@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-20 19:50:45 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-21 11:26:36 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -32,14 +32,14 @@ public class User  implements java.io.Serializable {
      private Byte isVip;
      private String outerId;
      private String passwd;
-     private Integer phoneNum;
+     private String phoneNum;
      private Date updateTime;
      private String userName;
 
     public User() {
     }
 
-    public User(String account, Date createTime, String email, String ext, Byte isVip, String outerId, String passwd, Integer phoneNum, Date updateTime, String userName) {
+    public User(String account, Date createTime, String email, String ext, Byte isVip, String outerId, String passwd, String phoneNum, Date updateTime, String userName) {
        this.account = account;
        this.createTime = createTime;
        this.email = email;
@@ -135,12 +135,12 @@ public class User  implements java.io.Serializable {
     }
 
     
-    @Column(name="phone_num")
-    public Integer getPhoneNum() {
+    @Column(name="phone_num", length=20)
+    public String getPhoneNum() {
         return this.phoneNum;
     }
     
-    public void setPhoneNum(Integer phoneNum) {
+    public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
 
