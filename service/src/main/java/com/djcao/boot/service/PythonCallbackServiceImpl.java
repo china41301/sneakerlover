@@ -22,10 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.GOT_THEM;
+import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.LOSS_THEM;
+import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.RESERVATION_SUCCESS;
 import static com.djcao.boot.common.BusinessStatus.ShoesStatusEnum.OVER_RESERVATION;
 import static com.djcao.boot.common.CodeDef.BE_THE_LUCKY_NUMBER;
 import static com.djcao.boot.common.CodeDef.BE_THE_UNLUCKY_NUMBER;
 import static com.djcao.boot.common.CodeDef.YY_LUCKY_NUMBER;
+import static com.djcao.boot.common.CodeDef.YY_UNLUCKY_NUMBER;
 
 /**
  * @author djcao
@@ -56,21 +60,21 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
         for (String itemId : itemIdList){
             try {
                 PackageResult<List<ReservationRegistration>> packageResult = reservationService
-                    .findByItemId(itemId, 1);
+                    .findByItemId(itemId, RESERVATION_SUCCESS.getStatus());
                 PythonResult<List<Map<String,String>>> pythonResult = yyService.check(packageResult.getResult());
                 if (!pythonResult.getCode().equals("0") || CollectionUtils.isEmpty(packageResult.getResult())){
                     logger.error("");
                     continue;
                 }
-
-                Map<Long, ReservationRegistration> collect = packageResult.getResult().stream()
-                    .collect(Collectors.toMap
+                packageResult.getResult().stream().forEach(reservationRegistration -> {reservationRegistration.setStatus(LOSS_THEM.getStatus());});
+                Map<Long, ReservationRegistration> collect = packageResult.getResult().stream().collect(Collectors.toMap
                         (ReservationRegistration::getId, Function.identity()));
                 pythonResult.getData().forEach(map -> {
                     if (null != collect.get(Long.valueOf(map.get("id")))){
                         ReservationRegistration reservationRegistration = collect.get(Long.valueOf(map.get
                             ("id")));
-                        reservationRegistration.setStatus(YY_LUCKY_NUMBER.equals(map.get("state")) ? BE_THE_LUCKY_NUMBER : BE_THE_UNLUCKY_NUMBER);
+                        reservationRegistration.setStatus(YY_LUCKY_NUMBER.equals(map.get("state")) ? GOT_THEM.getStatus() : YY_UNLUCKY_NUMBER.equals(map.get("state")) ? LOSS_THEM.getStatus()
+                        : RESERVATION_SUCCESS.getStatus());
                         //处理逻辑
                         reservationRegistration.setUpdateTime(new Date());
                     }

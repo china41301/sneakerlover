@@ -14,7 +14,11 @@ public class CodeDef {
 
     public static final int BE_THE_UNLUCKY_NUMBER = 3;
 
-    public static final String YY_LUCKY_NUMBER = "3";
+    public static final String YY_NOT_START = "1"; //未开始
+
+    public static final String YY_UNLUCKY_NUMBER = "2";//未中签
+
+    public static final String YY_LUCKY_NUMBER = "3";//中签了
 
     public static final String TEST_SESSION = "testSession";
 
