@@ -1,11 +1,9 @@
 package com.djcao.boot.job;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -21,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import static com.djcao.boot.common.BusinessStatus.ShoesStatusEnum.OVER_RESERVATION;
 
@@ -45,7 +42,7 @@ public class JobService {
 
     @PostConstruct
     public void init(){
-        threadPoolExecutor.scheduleAtFixedRate(new QuerySignResult(),1,1, TimeUnit.MINUTES);
+        threadPoolExecutor.scheduleAtFixedRate(new QuerySignResult(),1,20, TimeUnit.MINUTES);
     }
 
     public class QuerySignResult implements Runnable {
@@ -54,9 +51,10 @@ public class JobService {
         public void run() {
             try {
                 boolean hasNext = Boolean.TRUE;
-                PageRequest pageRequest = PageRequest.of(0, 20);
+                int step = 0;
                 while (hasNext) {
-                    Page<ShoesItem> byStatus = shoesItemRepository.findByStatus(OVER_RESERVATION.getStatus(),
+                    PageRequest pageRequest = PageRequest.of(step++, 20);
+                    Page<ShoesItem> byStatus = shoesItemRepository.findByStatus((byte)OVER_RESERVATION.getStatus(),
                         pageRequest);
                     logger.info("item off loading item : {}", JSON.toJSONString(byStatus.getContent()));
                     List<ShoesItem> content = byStatus.getContent();

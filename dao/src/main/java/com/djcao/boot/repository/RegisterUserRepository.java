@@ -29,4 +29,7 @@ public interface RegisterUserRepository extends JpaRepository<RegisterUser,Long>
     @Query(value = "select count(ru.id) from register_user ru WHERE ru.user_id = ?1 "
         + "and  not EXISTS (select 1 from reservation_registration rr where rr.register_user_id = ru.id and item_id = ?2) ",nativeQuery = true)
     int findNotReservationByUserIdCount(@Param("userId")Long userId, @Param("itemId") Long itemId);
+
+    @Query(value = "select t from RegisterUser t where t.userName = :userName")
+    RegisterUser findByUserName(@Param("userName") String userName);
 }

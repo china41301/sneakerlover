@@ -42,6 +42,12 @@ public class RegisterUserServiceImpl implements RegisterUserService {
             .getUserName()) || StringUtils.isBlank(registerUser.getPassword())){
             return PackageResult.error("userId或者userName或者password为空");
         }
+
+        RegisterUser byUserName = registerUserRepository.findByUserName(registerUser.getUserName());
+        if (byUserName != null && byUserName.getId() != null){
+            return PackageResult.error("该账户已经添加,无法再次添加");
+        }
+
         PythonResult<List<Map<String,String>>> login;
         try {
             login = yyService.login(Lists.newArrayList(registerUser));
