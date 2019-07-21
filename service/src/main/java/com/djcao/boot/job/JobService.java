@@ -48,25 +48,31 @@ public class JobService {
         threadPoolExecutor.scheduleAtFixedRate(new QuerySignResult(),1,1, TimeUnit.MINUTES);
     }
 
-    public class QuerySignResult implements Runnable{
+    public class QuerySignResult implements Runnable {
 
         @Override
         public void run() {
-            boolean hasNext = Boolean.TRUE;
-            PageRequest pageRequest = PageRequest.of(0, 20);
-            while (hasNext){
-                Page<ShoesItem> byStatus = shoesItemRepository.findByStatus(OVER_RESERVATION.getStatus(), pageRequest);
-                logger.info("item off loading item : {}" , JSON.toJSONString(byStatus.getContent()));
-                List<ShoesItem> content = byStatus.getContent();
-                hasNext = content.size() > 0;
-                if (content.size() > 0){
-                    try {
-                        pythonCallbackService.shoesOffLoadingV1(content.stream().map(ShoesItem::getItemId).collect(
-                            Collectors.toList()));
-                    }catch (Exception ex){
-                        logger.error("job error",ex);
+            try {
+                boolean hasNext = Boolean.TRUE;
+                PageRequest pageRequest = PageRequest.of(0, 20);
+                while (hasNext) {
+                    Page<ShoesItem> byStatus = shoesItemRepository.findByStatus(OVER_RESERVATION.getStatus(),
+                        pageRequest);
+                    logger.info("item off loading item : {}", JSON.toJSONString(byStatus.getContent()));
+                    List<ShoesItem> content = byStatus.getContent();
+                    hasNext = content.size() > 0;
+                    if (content.size() > 0) {
+                        try {
+                            pythonCallbackService.shoesOffLoadingV1(content.stream().map(ShoesItem::getItemId).collect(
+                                Collectors.toList()));
+                        } catch (Exception ex) {
+                            logger.error("job error", ex);
+                        }
                     }
                 }
+            } catch (Exception ex) {
+                logger.error("job error", ex);
+                throw ex;
             }
         }
     }
