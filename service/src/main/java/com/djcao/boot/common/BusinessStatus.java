@@ -35,8 +35,8 @@ public interface BusinessStatus {
      * 鞋子状态
      */
     enum ShoesStatusEnum {
-        DURING_RESERVATION(1,"登记中"),
-        OVER_RESERVATION(2,"登记结束");
+        DURING_RESERVATION(0,"登记中"),
+        OVER_RESERVATION(1,"登记结束");
 
         int status;
         String message;
