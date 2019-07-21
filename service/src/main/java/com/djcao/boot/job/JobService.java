@@ -39,7 +39,7 @@ public class JobService {
     @Autowired
     private PythonCallbackServiceImpl pythonCallbackService;
 
-    public ScheduledExecutorService threadPoolExecutor = Executors.newScheduledThreadPool(1);
+    public ScheduledExecutorService threadPoolExecutor = Executors.newScheduledThreadPool(5);
 
     Logger logger = LoggerFactory.getLogger(JobService.class);
 
