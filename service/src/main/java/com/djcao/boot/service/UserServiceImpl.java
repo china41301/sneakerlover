@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
             dbUser.setCreateTime(new Date());
             dbUser.setUpdateTime(new Date());
             dbUser.setIsVip((byte)0);
-            dbUser.setPasswd(password.replace(" ",""));
+            dbUser.setPasswd(password);
             dbUser.setPhoneNum(account);
             dbUser = userRepository.save(dbUser);
             return PackageResult.success(dbUser);
