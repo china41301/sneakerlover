@@ -127,7 +127,7 @@ public class ReservationServiceImpl implements ReservationService {
                 List<Predicate> list = new ArrayList<Predicate>();
 
                 if (!StringUtils.isEmpty(itemId)) {
-                    list.add(cb.equal(root.get("item_id").as(String.class), itemId));
+                    list.add(cb.equal(root.get("itemId").as(String.class), itemId));
                 }
                 if (null != status){
                     list.add(cb.equal(root.get("status").as(Integer.class), status));
