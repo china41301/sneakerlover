@@ -175,7 +175,7 @@ public class ReservationServiceImpl implements ReservationService {
             ShoesItem oneByItemId = shoesItemRepository.findOneByItemId(itemId);
             reservationRegistrationVO.setShoesItem(oneByItemId);
             Optional<RegisterUser> byId = registerUserRepository.findById(reservationRegistration.getRegisterUserId());
-            reservationRegistrationVO.setRegisterUserName(byId.get().getUserName());
+            reservationRegistrationVO.setRegisterUserName(byId.get().getName());
             return reservationRegistrationVO;
         }).collect(Collectors.toList());
         reservationRegistrationPackageResult.setResult(rlt);
