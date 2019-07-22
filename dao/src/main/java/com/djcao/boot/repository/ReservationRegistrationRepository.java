@@ -28,4 +28,8 @@ public interface ReservationRegistrationRepository extends JpaRepository<Reserva
 
     @Query(value = "select count(t.id) from ReservationRegistration t where t.userId = :userId and t.itemId = :itemId and t.status = :status")
     Integer countSignSuccessNumberByUserIdAndItemId(@Param("userId")Long userId,@Param("itemId")String itemId,@Param("status")Integer status);
+
+    @Query(value = "select t from ReservationRegistration t where t.itemId = :itemId and t.status = :status")
+    List<ReservationRegistration> findByItemIdAndStatus(@Param("itemId")String itemId,@Param("status")Integer status);
+
 }

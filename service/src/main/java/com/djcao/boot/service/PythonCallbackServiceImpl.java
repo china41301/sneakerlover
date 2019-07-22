@@ -61,7 +61,7 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
             try {
                 PackageResult<List<ReservationRegistration>> packageResult = reservationService
                     .findByItemId(itemId, RESERVATION_SUCCESS.getStatus());
-                PythonResult<List<Map<String,String>>> pythonResult = yyService.check(packageResult.getResult());
+                PythonResult<List<Map<String,Object>>> pythonResult = yyService.check(packageResult.getResult());
                 if (!pythonResult.getCode().equals("0") || CollectionUtils.isEmpty(packageResult.getResult())){
                     logger.error("");
                     continue;
@@ -70,9 +70,8 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
                 Map<Long, ReservationRegistration> collect = packageResult.getResult().stream().collect(Collectors.toMap
                         (ReservationRegistration::getId, Function.identity()));
                 pythonResult.getData().forEach(map -> {
-                    if (null != collect.get(Long.valueOf(map.get("id")))){
-                        ReservationRegistration reservationRegistration = collect.get(Long.valueOf(map.get
-                            ("id")));
+                    if (null != collect.get(Integer.class.cast(map.get("id")).longValue())){
+                        ReservationRegistration reservationRegistration = collect.get(Integer.class.cast(map.get("id")).longValue());
                         reservationRegistration.setStatus(YY_LUCKY_NUMBER.equals(map.get("state")) ? GOT_THEM.getStatus() : YY_UNLUCKY_NUMBER.equals(map.get("state")) ? LOSS_THEM.getStatus()
                         : RESERVATION_SUCCESS.getStatus());
                         //处理逻辑

@@ -20,5 +20,5 @@ public interface YYService {
 
     //Boolean offShelf(List<String> itemIdList);
 
-    PythonResult<List<Map<String,String>>> check(List<ReservationRegistration> param);
+    PythonResult<List<Map<String,Object>>> check(List<ReservationRegistration> param);
 }
