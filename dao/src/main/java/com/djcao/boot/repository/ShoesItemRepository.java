@@ -18,7 +18,7 @@ public interface ShoesItemRepository extends JpaRepository<ShoesItem,Long> {
     @Query(value = "select t from ShoesItem t where t.itemId = :itemId")
     ShoesItem findOneByItemId(@Param("itemId") String itemId);
 
-    @Query(value = "select t from ShoesItem t where t.itemId in :itemId")
+    @Query(value = "select t from ShoesItem t where t.itemId in :itemIdList")
     List<ShoesItem> findAllByItemId(@Param("itemIdList") List<String> itemIdList);
 
     @Modifying
