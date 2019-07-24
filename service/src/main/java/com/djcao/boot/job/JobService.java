@@ -27,7 +27,7 @@ import static com.djcao.boot.common.BusinessStatus.ShoesStatusEnum.OVER_RESERVAT
  * @workcode wb-cdj390654
  * @date 2019-07-20
  */
-@Component
+//@Component
 public class JobService {
 
     @Autowired

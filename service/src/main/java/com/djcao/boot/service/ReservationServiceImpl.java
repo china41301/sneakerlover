@@ -214,6 +214,9 @@ public class ReservationServiceImpl implements ReservationService {
         Page all = reservationRegistrationRepository.findByUserIdAndItemId(user.getId(),itemId,pageable);
         PackageResult reservationRegistrationPackageResult
                 = new PackageResult().setPage(all);
+        if (reservationRegistrationPackageResult.getTotal() <= 0){
+            return PackageResult.error("没有登记信息");
+        }
         List<ReservationRegistrationVO> rlt = ((List<ReservationRegistration>)reservationRegistrationPackageResult
                 .getResult()).stream().map(reservationRegistration -> {
             ReservationRegistrationVO reservationRegistrationVO = new ReservationRegistrationVO();
