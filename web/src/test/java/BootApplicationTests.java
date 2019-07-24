@@ -5,19 +5,31 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.common.PythonResult;
+import com.djcao.boot.dto.RegisterResultResponse;
+import com.djcao.boot.dto.RegisterShoesRequest;
 import com.djcao.boot.dto.YYCheckRequest;
 import com.djcao.boot.repository.*;
 import com.djcao.boot.service.RegisterUserService;
+import com.djcao.boot.service.ReservationService;
 import com.djcao.boot.so.RegisterUserSo;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BootApplication.class)
@@ -38,14 +50,33 @@ public class BootApplicationTests {
     RestTemplate restTemplate;
 
     @Autowired
+    ReservationRegistrationRepository reservationRegistrationRepository;
+
+    @Autowired
     private ShoesItemRepository shoesItemRepository;
-	/*@Test
-	public void contextLoads() {
-        Optional<User> byId = userRepository.findById(1L);
-        User user = byId.get();
-        user.setPhoneNum(12312312);
-        userRepository.save(user);
-    }*/
+
+    @Autowired
+    private ReservationService reservationService;
+
+	@Test
+	public void contextLoads() throws Exception{
+        List<RegisterShoesRequest> list = new ArrayList<>();
+        RegisterShoesRequest shoesRequest1 = new RegisterShoesRequest();
+        shoesRequest1.setShoesItemId("1222");
+        shoesRequest1.setActivityShopId(2222);
+        shoesRequest1.setShoesSize("8.5");
+        shoesRequest1.setReservationNumber(2);
+
+        RegisterShoesRequest shoesRequest2 = new RegisterShoesRequest();
+        shoesRequest2.setShoesItemId("1222");
+        shoesRequest2.setActivityShopId(3333);
+        shoesRequest2.setShoesSize("8");
+        shoesRequest2.setReservationNumber(2);
+        list.add(shoesRequest1);
+        list.add(shoesRequest2);
+	    User user = userRepository.getOne(1L);
+        PackageResult<String> result = reservationService.registerShoes(list, user);
+    }
 
     @Test
     public void test_FindByUserId(){

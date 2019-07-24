@@ -6,13 +6,11 @@ public interface BusinessStatus {
      * 预约登记流程状态
      */
     enum ReservationStatusEnum {
-        RESERVATION_SUCCESS(1,"调用东哥登记成功"),
-        RESERVATION_FAIL(2,"调用东哥登记失败"),
-        GOT_THEM(3,"抽中鞋子"),
-        LOSS_THEM(4,"没有抽中"),
-        SHOES_OFF_LOAD(5,"鞋子下架"),
-
-
+        RESERVATION_SUCCESS(0,"调用东哥登记成功"),
+        RESERVATION_FAIL(1,"调用东哥登记失败"),
+        GOT_THEM(2,"抽中鞋子"),
+        LOSS_THEM(3,"没有抽中"),
+        SHOES_OFF_LOAD(4,"鞋子下架")
         ;
 
         int status;

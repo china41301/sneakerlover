@@ -1,5 +1,6 @@
 package com.djcao.boot.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.djcao.boot.common.BaseSo;
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.dto.RegisterShoesRequest;
@@ -32,9 +33,17 @@ public class ReservationController {
     @ApiOperation(value = "球鞋登记")
     @PostMapping("register")
     @ResponseBody
-    public PackageResult<String> registerShoes(@RequestBody RegisterShoesRequest registerShoesRequest,HttpServletRequest request
+    public PackageResult<String> registerShoes(@RequestBody List<RegisterShoesRequest> registerShoesRequest,HttpServletRequest request
     ) throws Exception {
-        return reservationService.registerShoes(registerShoesRequest,(User)request.getSession().getAttribute(CURRENT_USER));
+        return reservationService.registerShoes(registerShoesRequest, (User)request.getSession().getAttribute(CURRENT_USER));
+    }
+
+    @ApiOperation(value = "登记结果查询")
+    @PostMapping("registerResult/query")
+    @ResponseBody
+    public PackageResult<JSONObject> registerResultQuery(@RequestParam String shoesItemId, HttpServletRequest request
+    ) throws Exception {
+        return reservationService.registerResultQuery(shoesItemId, (User)request.getSession().getAttribute(CURRENT_USER));
     }
 
     @ApiOperation(value = "中签查询列表")

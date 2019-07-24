@@ -32,4 +32,7 @@ public interface ReservationRegistrationRepository extends JpaRepository<Reserva
     @Query(value = "select t from ReservationRegistration t where t.itemId = :itemId and t.status = :status")
     List<ReservationRegistration> findByItemIdAndStatus(@Param("itemId")String itemId,@Param("status")Integer status);
 
+    @Query(value = "SELECT t.id, t.shoesSize, t.shoesShop, count(t.id) FROM ReservationRegistration t GROUP BY t.shoesShop")
+    List<ReservationRegistration> findG();
+
 }
