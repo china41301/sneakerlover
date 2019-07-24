@@ -10,6 +10,7 @@ public interface BusinessStatus {
         RESERVATION_FAIL(2,"调用东哥登记失败"),
         GOT_THEM(3,"抽中鞋子"),
         LOSS_THEM(4,"没有抽中"),
+        SHOES_OFF_LOAD(5,"鞋子下架"),
 
 
         ;
@@ -35,18 +36,18 @@ public interface BusinessStatus {
      * 鞋子状态
      */
     enum ShoesStatusEnum {
-        DURING_RESERVATION(0,"登记中"),
-        OVER_RESERVATION(1,"登记结束");
+        DURING_RESERVATION((byte) 0,"登记中"),
+        OVER_RESERVATION((byte)1,"登记结束");
 
-        int status;
+        byte status;
         String message;
 
-        ShoesStatusEnum(int status, String message) {
+        ShoesStatusEnum(byte status, String message) {
             this.status = status;
             this.message = message;
         }
 
-        public int getStatus() {
+        public byte getStatus() {
             return status;
         }
 

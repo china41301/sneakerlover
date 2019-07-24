@@ -15,6 +15,7 @@ import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.common.PythonResult;
 import com.djcao.boot.repository.ReservationRegistration;
 import com.djcao.boot.repository.ReservationRegistrationRepository;
+import com.djcao.boot.repository.ShoesItem;
 import com.djcao.boot.repository.ShoesItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import org.springframework.util.CollectionUtils;
 import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.GOT_THEM;
 import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.LOSS_THEM;
 import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.RESERVATION_SUCCESS;
+import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.SHOES_OFF_LOAD;
 import static com.djcao.boot.common.BusinessStatus.ShoesStatusEnum.OVER_RESERVATION;
 import static com.djcao.boot.common.CodeDef.BE_THE_LUCKY_NUMBER;
 import static com.djcao.boot.common.CodeDef.BE_THE_UNLUCKY_NUMBER;
@@ -90,12 +92,24 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
 
     @Override
     public Boolean shoesOffLoadingV2(List<String> itemListId) {
-        List<Long> collect = itemListId.stream().map(Long::valueOf).collect(Collectors.toList());
-        List<ReservationRegistration> byItemId = reservationRegistrationRepository.findByItemId(collect);
-        byItemId.forEach(reservationRegistration -> {
-            reservationRegistration.setUpdateTime(new Date());
-            reservationRegistration.setStatus(OVER_RESERVATION.getStatus());});
-        reservationRegistrationRepository.saveAll(byItemId);
+        //List<Long> collect = itemListId.stream().map(Long::valueOf).map().collect(Collectors.toList());
+        List<ShoesItem> shoesItems = shoesItemRepository.findAllByItemId(itemListId);
+        if (!CollectionUtils.isEmpty(shoesItems)){
+            shoesItems.forEach(shoesItem -> {
+                shoesItem.setUpdateTime(new Date());
+                shoesItem.setStatus(OVER_RESERVATION.getStatus());
+            });
+            shoesItemRepository.saveAll(shoesItems);
+        }
+
+        List<ReservationRegistration> byItemId = reservationRegistrationRepository.findByItemId(itemListId);
+        if (!CollectionUtils.isEmpty(byItemId)){
+            byItemId.forEach(reservationRegistration -> {
+                reservationRegistration.setUpdateTime(new Date());
+                reservationRegistration.setStatus(SHOES_OFF_LOAD.getStatus());});
+            reservationRegistrationRepository.saveAll(byItemId);
+        }
+
         logger.info("itemIdList : {}, result : {}",itemListId.toString(), JSONObject.toJSON(byItemId));
         return Boolean.TRUE;
     }

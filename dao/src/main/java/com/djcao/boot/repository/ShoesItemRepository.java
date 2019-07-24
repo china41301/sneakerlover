@@ -18,10 +18,15 @@ public interface ShoesItemRepository extends JpaRepository<ShoesItem,Long> {
     @Query(value = "select t from ShoesItem t where t.itemId = :itemId")
     ShoesItem findOneByItemId(@Param("itemId") String itemId);
 
+    @Query(value = "select t from ShoesItem t where t.itemId in :itemId")
+    List<ShoesItem> findAllByItemId(@Param("itemIdList") List<String> itemIdList);
+
     @Modifying
     @Query(value = "update ShoesItem set status = :status where itemId in :itemIdList")
-    int updateStatusByItemIdList(@Param("itemIdList")List<String> itemIdList, @Param("status")Integer status);
+    int updateStatusByItemIdList(@Param("itemIdList")List<String> itemIdList, @Param("status")byte
+        status);
 
     @Query(value = "select t from ShoesItem t where t.status = :status")
     Page<ShoesItem> findByStatus(@Param("status") Byte status,Pageable pageable);
+
 }

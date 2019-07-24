@@ -18,7 +18,7 @@ public interface ReservationRegistrationRepository extends JpaRepository<Reserva
     Long>,JpaSpecificationExecutor {
 
     @Query(value = "select t from ReservationRegistration t where t.itemId in :itemIdList")
-    List<ReservationRegistration> findByItemId(@Param("itemIdList") List<Long> itemIdList);
+    List<ReservationRegistration> findByItemId(@Param("itemIdList") List<String> itemIdList);
 
     @Query(value = "select t from ReservationRegistration t where t.userId = :userId group by t.itemId")
     Page<ReservationRegistration> findByUserId(@Param("userId")Long userId, Pageable pageable);
