@@ -95,11 +95,11 @@ public class YYServiceImpl implements YYService{
 
 
     @Override
-    public PythonResult<List<Map<String,String>>> check(List<ReservationRegistration> param){
+    public PythonResult<List<Map<String,Object>>> check(List<ReservationRegistration> param){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("data", param);
         jsonObject.put("code",10086);
-        PythonResult<List<Map<String,String>>> pythonResult = restTemplate.postForObject(pythonHost+ YY_CHECK,
+        PythonResult<List<Map<String,Object>>> pythonResult = restTemplate.postForObject(pythonHost+ YY_CHECK,
             jsonObject,
             PythonResult.class);
         return pythonResult;
