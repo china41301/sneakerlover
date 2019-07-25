@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.djcao.boot.common.BusinessStatus.ShoesStatusEnum;
 import com.djcao.boot.common.PackageResult;
@@ -57,12 +58,14 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
         try {
             PackageResult<List<ReservationRegistration>> packageResult = reservationService
                 .findByItemId(null, SHOES_OFF_LOAD.getStatus());
+            logger.info("获取到需要调用是否中签接口有:{}", JSON.toJSONString(packageResult));
             PythonResult<List<Map<String, Object>>> pythonResult = yyService
                 .check(packageResult.getResult());
             if (!pythonResult.getCode().equals("0") || CollectionUtils
                 .isEmpty(packageResult.getResult())) {
                 logger.error("");
             }
+            logger.info("中签接口返回:{}", JSON.toJSONString(pythonResult));
             packageResult.getResult().stream().forEach(reservationRegistration -> {
                 reservationRegistration.setStatus(LOSS_THEM.getStatus());
             });
