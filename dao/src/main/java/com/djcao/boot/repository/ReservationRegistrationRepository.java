@@ -17,14 +17,18 @@ import org.springframework.data.repository.query.Param;
 public interface ReservationRegistrationRepository extends JpaRepository<ReservationRegistration,
     Long>,JpaSpecificationExecutor {
 
-    @Query(value = "select t from ReservationRegistration t where t.itemId in :itemIdList")
-    List<ReservationRegistration> findByItemId(@Param("itemIdList") List<String> itemIdList);
+    @Query(value = "select t from ReservationRegistration t where t.itemId in :itemIdList and t"
+        + ".status = :status")
+    List<ReservationRegistration> findByItemId(@Param("itemIdList") List<String> itemIdList,
+        @Param("status")Integer status );
 
     @Query(value = "select t from ReservationRegistration t where t.userId = :userId group by t.itemId")
     Page<ReservationRegistration> findByUserId(@Param("userId")Long userId, Pageable pageable);
 
-    @Query(value = "select t from ReservationRegistration t where t.userId = :userId and t.itemId = :itemId")
-    Page<ReservationRegistration> findByUserIdAndItemId(@Param("userId")Long userId,@Param("itemId")String itemId,Pageable pageable);
+    @Query(value = "select t from ReservationRegistration t where t.userId = :userId and t.itemId"
+        + " = :itemId and t.status in :status")
+    Page<ReservationRegistration> findByUserIdAndItemId(@Param("userId")Long userId,@Param
+        ("itemId")String itemId,@Param("status") List<Integer> status,Pageable pageable);
 
     @Query(value = "select count(t.id) from ReservationRegistration t where t.userId = :userId and t.itemId = :itemId and t.status = :status")
     Integer countSignSuccessNumberByUserIdAndItemId(@Param("userId")Long userId,@Param("itemId")String itemId,@Param("status")Integer status);

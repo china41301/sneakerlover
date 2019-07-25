@@ -18,6 +18,7 @@ import com.djcao.boot.dto.RegisterShoesRequest;
 import com.djcao.boot.dto.YYSignRequest;
 import com.djcao.boot.repository.*;
 import com.djcao.boot.vo.ReservationRegistrationVO;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.GOT_THEM;
+import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.LOSS_THEM;
+import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.SHOES_OFF_LOAD;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -56,6 +59,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     @PersistenceContext
     private EntityManager em;
+
+    private static final List<Integer> getThenStatus = Lists.newArrayList(GOT_THEM.getStatus(),
+        LOSS_THEM.getStatus(),SHOES_OFF_LOAD.getStatus());
 
     @Override
     @SuppressWarnings("unchecked")
@@ -211,7 +217,8 @@ public class ReservationServiceImpl implements ReservationService {
     public PackageResult<List<ReservationRegistrationVO>> getReservationItem(String itemId, User user,BaseSo so) {
         Pageable pageable = PageRequest.of(so.getPageNum(), so.getPageSize(),
                 Direction.DESC, "createTime");
-        Page all = reservationRegistrationRepository.findByUserIdAndItemId(user.getId(),itemId,pageable);
+        Page all = reservationRegistrationRepository.findByUserIdAndItemId(user.getId(),itemId,
+            getThenStatus,pageable);
         PackageResult reservationRegistrationPackageResult
                 = new PackageResult().setPage(all);
         if (reservationRegistrationPackageResult.getTotal() <= 0){

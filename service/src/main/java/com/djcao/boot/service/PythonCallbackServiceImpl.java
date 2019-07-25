@@ -2,6 +2,7 @@ package com.djcao.boot.service;
 
 import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.GOT_THEM;
 import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.LOSS_THEM;
+import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.RESERVATION_SUCCESS;
 import static com.djcao.boot.common.BusinessStatus.ReservationStatusEnum.SHOES_OFF_LOAD;
 import static com.djcao.boot.common.BusinessStatus.ShoesStatusEnum.OVER_RESERVATION;
 import static com.djcao.boot.common.CodeDef.YY_LUCKY_NUMBER;
@@ -99,7 +100,8 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
             shoesItemRepository.saveAll(shoesItems);
         }
 
-        List<ReservationRegistration> byItemId = reservationRegistrationRepository.findByItemId(itemListId);
+        List<ReservationRegistration> byItemId = reservationRegistrationRepository
+            .findByItemId(itemListId, RESERVATION_SUCCESS.getStatus());
         if (!CollectionUtils.isEmpty(byItemId)){
             byItemId.forEach(reservationRegistration -> {
                 reservationRegistration.setUpdateTime(new Date());
