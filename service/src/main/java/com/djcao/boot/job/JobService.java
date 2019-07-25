@@ -18,13 +18,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 
 /**
  * @author djcao
  * @workcode wb-cdj390654
  * @date 2019-07-20
  */
-//@Component
+@Component
 public class JobService {
 
     @Autowired
