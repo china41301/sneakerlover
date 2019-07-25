@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface PythonCallbackService {
 
-    Boolean shoesOffLoadingV1(List<String> itemListId);
+    Boolean shoesOffLoadJobProcess(List<String> itemListId);
 
     Boolean shoesOffLoadingV2(List<String> itemListId);
 
