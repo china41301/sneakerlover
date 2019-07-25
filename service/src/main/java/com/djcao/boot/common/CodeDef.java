@@ -10,6 +10,8 @@ public class CodeDef {
 
     public static final int ERROR = 999;
 
+    public static final int NOT_LOGIN = 8888;
+
     public static final int BE_THE_LUCKY_NUMBER = 2;
 
     public static final int BE_THE_UNLUCKY_NUMBER = 3;
