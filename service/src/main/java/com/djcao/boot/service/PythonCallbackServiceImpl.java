@@ -59,6 +59,10 @@ public class PythonCallbackServiceImpl implements PythonCallbackService{
             PackageResult<List<ReservationRegistration>> packageResult = reservationService
                 .findByItemId(null, SHOES_OFF_LOAD.getStatus());
             logger.info("获取到需要调用是否中签接口有:{}", JSON.toJSONString(packageResult));
+            if (packageResult.getTotal() <= 0){
+                logger.info("无需调用check接口");
+                return Boolean.TRUE;
+            }
             PythonResult<List<Map<String, Object>>> pythonResult = yyService
                 .check(packageResult.getResult());
             if (!pythonResult.getCode().equals("0") || CollectionUtils
