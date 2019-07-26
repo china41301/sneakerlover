@@ -20,7 +20,8 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object
         o) throws Exception {
         if (!request.getRequestURI().contains("login") && !request.getRequestURI().contains("offShelfCallback")
-            && !request.getRequestURI().contains("swagger") ){
+            && !request.getRequestURI().contains("swagger") && !request.getRequestURI().contains
+            ("v2")){
             Object attribute = request.getSession().getAttribute(CURRENT_USER);
             if (attribute == null){
                 response.setContentType("application/json;charset=utf-8");
