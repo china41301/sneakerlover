@@ -81,6 +81,7 @@ public class JobService {
         @Override
         public void run() {
             try {
+                logger.info("start job");
                 pythonCallbackService.shoesOffLoadJobProcess(null);
             } catch (Exception ex) {
                 logger.error("job error", ex);
