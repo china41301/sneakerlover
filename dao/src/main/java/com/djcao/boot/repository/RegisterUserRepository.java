@@ -22,7 +22,7 @@ public interface RegisterUserRepository extends JpaRepository<RegisterUser,Long>
     List<RegisterUser> findRegisterUsersByIds(@Param("ids")List<Long> ids);
 
     @Query(value = "select * from register_user ru WHERE ru.user_id = ?1 "
-        + "and  not EXISTS (select 1 from reservation_registration rr where rr.register_user_id = ru.id and item_id = ?2) "
+        + "and  not EXISTS (select 1 from reservation_registration rr where rr.register_user_id = ru.id and item_id = ?2 and status != 1) "
         + "limit ?3",nativeQuery = true)
     List<RegisterUser> findNotReservationByUserId(@Param("userId")Long userId,@Param("itemId") String itemId,@Param("size") int size);
 

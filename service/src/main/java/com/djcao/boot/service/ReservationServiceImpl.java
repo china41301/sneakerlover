@@ -153,7 +153,7 @@ public class ReservationServiceImpl implements ReservationService {
         query.groupBy(root.get("shoesShop"),
                 root.get("shoesSize"));
         query.where(cb.and(cb.equal(root.get("itemId").as(String.class), shoesItemId), cb.equal(root.get("userId").as(Long.class), user.getId())));
-        //获取全部登记登录
+        //获取全部登记记录
         List<RegisterResultResponse> list = em.createQuery(query).getResultList();
 
         //获取登记成功的记录
