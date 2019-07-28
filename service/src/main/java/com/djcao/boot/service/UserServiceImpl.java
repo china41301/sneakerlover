@@ -2,6 +2,7 @@ package com.djcao.boot.service;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.JSONObject;
 import com.djcao.boot.common.PackageResult;
 import com.djcao.boot.repository.User;
 import com.djcao.boot.repository.UserRepository;
@@ -9,7 +10,9 @@ import com.djcao.boot.util.SwitchHelper;
 import com.djcao.boot.util.UserSo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author djcao
@@ -22,6 +25,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    RestTemplate restTemplate;
+
+    @Value(value = "${wechat.login.api}")
+    private String wxLoginApi;
+
+    @Value(value = "${wechat.appId}")
+    private String appId;
+
+    @Value(value = "${wechat.appSecret}")
+    private String appSecret;
+
     @Override
     public PackageResult<User> findById(Long id) {
         PackageResult<User> packageResult = PackageResult.success();
@@ -31,6 +46,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PackageResult<User> login(UserSo so) {
+        String code = "code";
+        JSONObject object = JSONObject.parseObject(restTemplate.getForObject(wxLoginApi + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + code + "&grant_type=authorization_code", String.class));
+        String session_key = object.getString("session_key");
+        String open_id = object.getString("openid");
+        //TODO 使用session_key和open_id自定义3rd_session的逻辑
+
         if (StringUtils.isBlank(so.getAccount()) || StringUtils.isBlank(so.getPassword())){
             return PackageResult.error("用户名或密码为空");
         }
