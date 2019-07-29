@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-21 11:26:36 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-30 7:30:24 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -19,7 +19,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name="user"
     ,catalog="sneakerlover"
-    , uniqueConstraints = @UniqueConstraint(columnNames="account") 
+    , uniqueConstraints = @UniqueConstraint(columnNames={"account", "is_we_chat"}) 
 )
 public class User  implements java.io.Serializable {
 
@@ -30,26 +30,28 @@ public class User  implements java.io.Serializable {
      private String email;
      private String ext;
      private Byte isVip;
-     private String outerId;
+     private Byte isWeChat;
      private String passwd;
      private String phoneNum;
      private Date updateTime;
      private String userName;
+     private String sessionKey;
 
     public User() {
     }
 
-    public User(String account, Date createTime, String email, String ext, Byte isVip, String outerId, String passwd, String phoneNum, Date updateTime, String userName) {
+    public User(String account, Date createTime, String email, String ext, Byte isVip, Byte isWeChat, String passwd, String phoneNum, Date updateTime, String userName, String sessionKey) {
        this.account = account;
        this.createTime = createTime;
        this.email = email;
        this.ext = ext;
        this.isVip = isVip;
-       this.outerId = outerId;
+       this.isWeChat = isWeChat;
        this.passwd = passwd;
        this.phoneNum = phoneNum;
        this.updateTime = updateTime;
        this.userName = userName;
+       this.sessionKey = sessionKey;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -65,7 +67,7 @@ public class User  implements java.io.Serializable {
     }
 
     
-    @Column(name="account", unique=true, length=80)
+    @Column(name="account", length=80)
     public String getAccount() {
         return this.account;
     }
@@ -115,13 +117,13 @@ public class User  implements java.io.Serializable {
     }
 
     
-    @Column(name="outer_id", length=80)
-    public String getOuterId() {
-        return this.outerId;
+    @Column(name="is_we_chat")
+    public Byte getIsWeChat() {
+        return this.isWeChat;
     }
     
-    public void setOuterId(String outerId) {
-        this.outerId = outerId;
+    public void setIsWeChat(Byte isWeChat) {
+        this.isWeChat = isWeChat;
     }
 
     
@@ -162,6 +164,16 @@ public class User  implements java.io.Serializable {
     
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    
+    @Column(name="session_key", length=100)
+    public String getSessionKey() {
+        return this.sessionKey;
+    }
+    
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
     }
 
 

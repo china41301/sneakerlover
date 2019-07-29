@@ -13,6 +13,8 @@ public class UserSo extends BaseSo {
 
     private String password;
 
+    private String code;
+
     public String getAccount() {
         return account;
     }
@@ -27,5 +29,13 @@ public class UserSo extends BaseSo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

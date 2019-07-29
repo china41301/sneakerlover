@@ -46,41 +46,60 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PackageResult<User> login(UserSo so) {
-        String code = "code";
-        JSONObject object = JSONObject.parseObject(restTemplate.getForObject(wxLoginApi + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + code + "&grant_type=authorization_code", String.class));
-        String session_key = object.getString("session_key");
-        String open_id = object.getString("openid");
-        //TODO 使用session_key和open_id自定义3rd_session的逻辑
-
-        if (StringUtils.isBlank(so.getAccount()) || StringUtils.isBlank(so.getPassword())){
-            return PackageResult.error("用户名或密码为空");
-        }
-        String account = so.getAccount();
-        String password = so.getPassword();
-        User dbUser = userRepository.findByPhoneNumOrEmail(account);
-        //to register
-        if (dbUser == null){
-            if (StringUtils.isBlank(account) || StringUtils.isBlank(password)){
-                return PackageResult.error("请输入用户名或者密码");
+        if (StringUtils.isNotBlank(so.getCode())){
+            String code = so.getCode();
+            JSONObject object = JSONObject.parseObject(restTemplate.getForObject(wxLoginApi + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + code + "&grant_type=authorization_code", String.class));
+            String session_key = object.getString("session_key");
+            String open_id = object.getString("openid");
+            //TODO 使用session_key和open_id自定义3rd_session的逻辑
+            if (object.getIntValue("errcode") != 0){
+                return PackageResult.error("登录失败,获取open_id失败");
             }
-            if (SwitchHelper.isSimple()){
-                return PackageResult.error("用户不存在");
+            User dbUser = userRepository.findByAccount(open_id);
+            if (dbUser == null){
+                dbUser = new User();
+                dbUser.setCreateTime(new Date());
+                dbUser.setUpdateTime(new Date());
+                dbUser.setIsVip((byte)0);
+                dbUser.setAccount(open_id);
+                dbUser.setIsWeChat((byte)1);
+                dbUser.setSessionKey(session_key);
+                dbUser = userRepository.save(dbUser);
             }
-            dbUser = new User();
-            dbUser.setCreateTime(new Date());
-            dbUser.setUpdateTime(new Date());
-            dbUser.setIsVip((byte)0);
-            dbUser.setPasswd(password);
-            dbUser.setPhoneNum(account);
-            dbUser = userRepository.save(dbUser);
             return PackageResult.success(dbUser);
+
         }else {
-            if (dbUser.getPasswd().equals(password)){
+            if (StringUtils.isBlank(so.getAccount()) || StringUtils.isBlank(so.getPassword())){
+                return PackageResult.error("用户名或密码为空");
+            }
+            String account = so.getAccount();
+            String password = so.getPassword();
+            User dbUser = userRepository.findByAccount(account);
+            //to register
+            if (dbUser == null){
+                if (StringUtils.isBlank(account) || StringUtils.isBlank(password)){
+                    return PackageResult.error("请输入用户名或者密码");
+                }
+                if (SwitchHelper.isSimple()){
+                    return PackageResult.error("用户不存在");
+                }
+                dbUser = new User();
+                dbUser.setCreateTime(new Date());
+                dbUser.setUpdateTime(new Date());
+                dbUser.setIsVip((byte)0);
+                dbUser.setPasswd(password);
+                dbUser.setPhoneNum(account);
+                dbUser = userRepository.save(dbUser);
                 return PackageResult.success(dbUser);
             }else {
-                return PackageResult.error("密码错误");
+                if (dbUser.getPasswd().equals(password)){
+                    return PackageResult.success(dbUser);
+                }else {
+                    return PackageResult.error("密码错误");
+                }
             }
         }
+
     }
 
     @Override

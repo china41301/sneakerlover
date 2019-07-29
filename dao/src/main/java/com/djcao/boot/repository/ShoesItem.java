@@ -1,5 +1,5 @@
 package com.djcao.boot.repository;
-// Generated 2019-7-21 11:26:36 by Hibernate Tools 5.2.8.Final
+// Generated 2019-7-30 7:30:24 by Hibernate Tools 5.2.8.Final
 
 
 import java.util.Date;
@@ -159,7 +159,7 @@ public class ShoesItem  implements java.io.Serializable {
     }
 
     
-    @Column(name="shop")
+    @Column(name="shop", length=1024)
     public String getShop() {
         return this.shop;
     }
