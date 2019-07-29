@@ -11,7 +11,9 @@ import com.djcao.boot.dto.YYCheckRequest;
 import com.djcao.boot.repository.*;
 import com.djcao.boot.service.RegisterUserService;
 import com.djcao.boot.service.ReservationService;
+import com.djcao.boot.service.UserService;
 import com.djcao.boot.so.RegisterUserSo;
+import com.djcao.boot.util.UserSo;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,24 +60,15 @@ public class BootApplicationTests {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    UserService userService;
+
 	@Test
 	public void contextLoads() throws Exception{
-        List<RegisterShoesRequest> list = new ArrayList<>();
-        RegisterShoesRequest shoesRequest1 = new RegisterShoesRequest();
-        shoesRequest1.setShoesItemId("1222");
-        shoesRequest1.setActivityShopId(2222);
-        shoesRequest1.setShoesSize("8.5");
-        shoesRequest1.setReservationNumber(2);
-
-        RegisterShoesRequest shoesRequest2 = new RegisterShoesRequest();
-        shoesRequest2.setShoesItemId("1222");
-        shoesRequest2.setActivityShopId(3333);
-        shoesRequest2.setShoesSize("8");
-        shoesRequest2.setReservationNumber(2);
-        list.add(shoesRequest1);
-        list.add(shoesRequest2);
-	    User user = userRepository.getOne(1L);
-        PackageResult<String> result = reservationService.registerShoes(list, user);
+        UserSo so = new UserSo();
+        so.setAccount("1");
+        so.setPassword("1");
+        userService.login(so);
     }
 
     @Test

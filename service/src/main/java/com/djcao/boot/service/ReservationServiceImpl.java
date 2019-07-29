@@ -103,6 +103,8 @@ public class ReservationServiceImpl implements ReservationService {
 
                 //先生成所有提交了登记信息的记录，状态都为预约登记失败
                 ReservationRegistration reservationRegistration = new ReservationRegistration();
+                reservationRegistration.setCreateTime(new Date());
+                reservationRegistration.setUpdateTime(new Date());
                 reservationRegistration.setItemId(registerShoesRequest.getShoesItemId());
                 reservationRegistration.setRegisterUserId(registerUser.getId());
                 reservationRegistration.setUserId(user.getId());
