@@ -209,6 +209,10 @@ public class ReservationServiceImpl implements ReservationService {
                     BeanUtils.copyProperties(reservationRegistration, reservationRegistrationVO);
                     ShoesItem oneByItemId = shoesItemRepository.findOneByItemId(reservationRegistration.getItemId());
                     reservationRegistrationVO.setShoesItem(oneByItemId);
+                    Integer signSuccessNumberByUserIdAndItemId = reservationRegistrationRepository
+                        .countSignSuccessNumberByUserIdAndItemId(user.getId(),
+                            reservationRegistration.getItemId(), GOT_THEM.getStatus());
+                    reservationRegistrationVO.setSignSuccessNumber(signSuccessNumberByUserIdAndItemId);
                     return reservationRegistrationVO;
                 }).collect(Collectors.toList());
         packageResult.setResult(rlt);
