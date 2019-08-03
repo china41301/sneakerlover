@@ -9,6 +9,8 @@ import com.djcao.boot.repository.UserRepository;
 import com.djcao.boot.util.SwitchHelper;
 import com.djcao.boot.util.UserSo;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,8 @@ public class UserServiceImpl implements UserService {
     @Value(value = "${wechat.appSecret}")
     private String appSecret;
 
+    Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Override
     public PackageResult<User> findById(Long id) {
         PackageResult<User> packageResult = PackageResult.success();
@@ -53,6 +57,7 @@ public class UserServiceImpl implements UserService {
             String open_id = object.getString("openid");
             //TODO 使用session_key和open_id自定义3rd_session的逻辑
             if (object.getIntValue("errcode") != 0){
+                logger.error(object.toJSONString());
                 return PackageResult.error("登录失败,获取open_id失败");
             }
             User dbUser = userRepository.findByAccount(open_id);
