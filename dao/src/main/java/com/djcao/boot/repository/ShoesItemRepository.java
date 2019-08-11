@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ShoesItemRepository extends JpaRepository<ShoesItem,Long> {
 
-    @Query(value = "select * from shoes_item",nativeQuery = true)
+    @Query(value = "select * from shoes_item where brand = 'yy'",nativeQuery = true)
     Page<ShoesItem> getShoesItems(Pageable pageable);
 
     @Query(value = "select t from ShoesItem t where t.itemId = :itemId")
@@ -26,7 +26,7 @@ public interface ShoesItemRepository extends JpaRepository<ShoesItem,Long> {
     int updateStatusByItemIdList(@Param("itemIdList")List<String> itemIdList, @Param("status")byte
         status);
 
-    @Query(value = "select t from ShoesItem t where t.status = :status")
+    @Query(value = "select t from ShoesItem t where t.status = :status and brand = 'yy'")
     Page<ShoesItem> findByStatus(@Param("status") Byte status,Pageable pageable);
 
 }
